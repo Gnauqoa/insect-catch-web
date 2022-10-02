@@ -6,13 +6,16 @@ import Home from "./features/home";
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="*" element={<p>There's nothing here!</p>} />
-      </Routes>
-      <Outlet />
-    </BrowserRouter>
+    <div className="flex flex-col bg-[#edebde] w-full h-[1000px] items-center justify-center">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="*" element={<p>There's nothing here!</p>} />
+        </Routes>
+        <Outlet />
+      </BrowserRouter>
+    </div>
+  
   </ThemeProvider>
 );
 export default App;
