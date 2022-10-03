@@ -49,6 +49,9 @@ module.exports = {
       colors: {
         primary: "#D63384",
         borderNeutral: "#E6E8EC",
+        textTarget: "#3C652F",
+        normalText: "#000000",
+        'rgba': 'rgba(255, 247, 205, 0.54)',
       },
     },
   },
