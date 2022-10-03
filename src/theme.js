@@ -19,8 +19,8 @@ const theme = createTheme({
     border_moreDark: {
       main: "#E6E8EC",
     },
-    text_black: { main: "#23262F" },
-    text_green: { main: "#45B26B" },
+    text_black: { main: "#000000" },
+    text_green: { main: "#3C652F" },
   },
 });
 
