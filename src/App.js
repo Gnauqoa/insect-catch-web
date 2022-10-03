@@ -16,10 +16,10 @@ const App = () => (
           width: "100%",
         }}
       >
-        <div className="h-screen flex flex-row gap-8 w-full">
+        <div className="min-h-screen flex flex-row gap-8 w-full">
           <MenuBar />
           <div className="flex flex-col p-8 w-full">
-            <div className="flex flex-col h-full p-8 w-full bg-[#ffffff] rounded-[40px] shadow-2xl">
+            <div className="flex flex-col h-full w-full bg-[#ffffff] rounded-[40px] shadow-2xl">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<p>There's nothing here!</p>} />

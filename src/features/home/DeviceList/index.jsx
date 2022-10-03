@@ -2,73 +2,99 @@ import React, { useEffect, useState } from "react";
 import { getDeviceInfoData } from "./data";
 import ConnectedIcon from "./assets/connected.png";
 import DisconnectIcon from "./assets/disconnect.png";
-import { Button, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  borderBottom: "none",
+}));
 
 const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
   return (
-    <div className="flex flex-row w-full">
-      <div className="flex flex-row w-[300px] gap-4 max-h-[100px] items-center">
-        <img
-          className="w-[60px] h-auto object-cover"
-          src={imgUrl}
-          alt="device"
-        />
-        <div className="flex flex-col justify-center">
-          <p className="text-[#121212] font-[700] text-[20px]">{name}</p>
-          <p className="text-[#94918A] font-[400] text-[14px]">{desc}</p>
+    <TableRow>
+      <StyledTableCell>
+        <div className="flex flex-row gap-4">
+          <img
+            className="w-[60px] h-auto object-cover"
+            src={imgUrl}
+            alt="device"
+          />
+          <div className="flex flex-col justify-center">
+            <Typography
+              sx={{
+                fontSize: 20,
+                fontWeight: 700,
+                color: "#121212",
+              }}
+            >
+              {name}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 14,
+                fontWeight: 400,
+                color: "#94918A",
+              }}
+            >
+              {desc}
+            </Typography>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-row items-center ">
-        <p className="font-[700] text-[17px] text-[#121212] w-[150px]">
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        <Typography
+          sx={{
+            fontSize: 17,
+            fontWeight: 700,
+            color: "#121212",
+          }}
+        >
           {create}
-        </p>
-        <div className="w-[150px] ">
-          {
-            <img
-              className="w-[35px]"
-              src={status ? ConnectedIcon : DisconnectIcon}
-            />
-          }
-        </div>
-        <p className="font-[700] text-[17px] text-[#121212] w-[150px]">
-          {battery}%
-        </p>
-      </div>
-      <div className="flex flex-col ml-auto justify-center">
+        </Typography>
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        {
+          <img
+            className="w-[35px] ml-auto"
+            src={status ? ConnectedIcon : DisconnectIcon}
+          />
+        }
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        <Typography
+          sx={{
+            fontSize: 17,
+            fontWeight: 700,
+            color: "#121212",
+          }}
+        >
+          {battery}
+        </Typography>
+      </StyledTableCell>
+      <StyledTableCell align="right">
         <Button
           sx={{
-            color: "#FFD143",
+            color: "text_green.main",
             textTransform: "none",
           }}
           endIcon={<DoubleArrowIcon />}
         >
-          <Typography sx={{ color: "#FFD143", fontSize: 18 }}>
+          <Typography sx={{ color: "text_green.main", fontSize: 18 }}>
             See more
           </Typography>
         </Button>
-      </div>
-    </div>
-  );
-};
-
-const InfoShow = () => {
-  return (
-    <div className="flex flex-row">
-      <p className="font-[400] text-[20px] text-[#94918A] w-[300px]">Name</p>
-      <div className="flex flex-row">
-        <p className="font-[400] text-[20px] text-[#94918A] w-[150px]">
-          Create
-        </p>
-        <p className="font-[400] text-[20px] text-[#94918A] w-[150px]">
-          Status
-        </p>
-        <p className="font-[400] text-[20px] text-[#94918A] w-[150px]">
-          Battery
-        </p>
-      </div>
-    </div>
+      </StyledTableCell>
+    </TableRow>
   );
 };
 
@@ -77,7 +103,7 @@ const DeviceList = () => {
   useEffect(() => {
     setDeviceData(getDeviceInfoData().slice(0, 3));
   }, []);
-  console.log(deviceData);
+  const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
   return (
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-row">
@@ -102,20 +128,42 @@ const DeviceList = () => {
           </Button>
         </div>
       </div>
-      <InfoShow />
-      <div className="flex flex-col gap-8 w-full">
-        {deviceData.map((data, index) => (
-          <DeviceInfo
-            key={"device info " + index}
-            imgUrl={data.imgUrl}
-            desc={data.desc}
-            name={data.name}
-            create={data.create}
-            status={data.status}
-            battery={data.battery}
-          />
-        ))}
-      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {InfoDeviceShow.map((data, index) => (
+              <StyledTableCell
+                align={index === 0 ? "" : "right"}
+                key={"device properties show " + index}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 400,
+                    fontSize: 20,
+                    color: "#94918A",
+                  }}
+                >
+                  {data}
+                </Typography>
+              </StyledTableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {deviceData.map((data, index) => (
+            <DeviceInfo
+              key={"device info " + index}
+              imgUrl={data.imgUrl}
+              name={data.name}
+              desc={data.desc}
+              create={data.create}
+              battery={data.battery}
+              status={data.status}
+            />
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
