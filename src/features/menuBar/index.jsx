@@ -4,8 +4,10 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Button, IconButton, Link, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Introduce = () => {
   return (
@@ -17,7 +19,7 @@ const Introduce = () => {
       />
       <Typography
         sx={{
-          fontSize: 24,
+          fontSize: 30,
           fontWeight: 700,
           color: "#121212",
         }}
@@ -47,12 +49,12 @@ const LogOut = () => {
 };
 
 const MenuPage = () => {
+  const location = useLocation();
   const MenuOption = [
     { title: "Home", url: "/", icon: <HomeIcon /> },
     { title: "Device", url: "/device", icon: <DeviceHubIcon /> },
-    { title: "Settings", url: "/setting", icon: <SettingsApplicationsIcon /> },
+    { title: "Settings", url: "/settings", icon: <SettingsIcon /> },
   ];
-  const [option, setOption] = useState(MenuOption[0].title);
   return (
     <div className="flex flex-col gap-12">
       {MenuOption.map((data, index) => {
@@ -60,14 +62,20 @@ const MenuPage = () => {
           <Link underline="none" href={data.url} key={"menu option" + index}>
             <Button
               onClick={() => {
-                setOption(data.title);
-                console.log(option);
+                console.log(location);
               }}
               startIcon={data.icon}
               sx={{
+                textTransform: "none",
+                fontSize: location.pathname === data.url ? 24 : 16,
                 color:
-                  option === data.title ? "text_green.main" : "text_black.main",
+                  location.pathname === data.url
+                    ? "text_green.main"
+                    : "text_black.main",
+                transition: "background 0.5s, color 0.5s, transform 0.5s, height 1s",
+
                 ":hover": {
+                  transform: location.pathname === data.url ? "" : "scale(1.3)",
                   color: "text_green.main",
                 },
               }}
