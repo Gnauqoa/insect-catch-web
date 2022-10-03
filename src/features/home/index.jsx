@@ -1,19 +1,28 @@
-import { Container, Typography } from "@mui/material";
 import React from "react";
+import DeviceList from "./DeviceList";
+import Introduce from "./Introduce";
 
-
-const Home = () => {
-  return(
-    <div className="flex flex-col w-full ">
-      <Typography
-        sx={{
-    
-        }}
-      >
-        Dashboard
-      </Typography>
+const MainArea = () => {
+  return (
+    <div className="flex flex-col p-6 pl-8 w-[70%] rounded-[32px]">
+      <div className="flex flex-col gap-12 w-full">
+        <Introduce />
+        <DeviceList />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+const UserInfo = () => {
+  return <div className="flex flex-col"><p>user</p></div>;
+};
+const Home = () => {
+  return (
+    <div className="flex flex-row w-full gap-[60px]">
+      <MainArea />
+      <UserInfo />
+    </div>
+  );
+};
+
+export default Home;
