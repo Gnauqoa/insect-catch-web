@@ -26,7 +26,7 @@ const Introduce = () => {
 
 const MainArea = () => {
   return (
-    <div className="flex flex-col p-14 pr-0 w-full h-full rounded-[32px]">
+    <div className="flex flex-col p-14 xl:pr-0 pr-14 w-full h-full rounded-[32px]">
       <div className="flex flex-col gap-12 w-full h-full">
         <Introduce />
         <DeviceList />

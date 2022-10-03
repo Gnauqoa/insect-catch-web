@@ -16,7 +16,7 @@ const App = () => (
           width: "100%",
         }}
       >
-        <div className="min-h-screen flex flex-row gap-8 w-full">
+        <div className="min-h-screen flex  xl:flex-row gap-8 w-full">
           <MenuBar />
           <div className="flex flex-col p-8 w-full">
             <div className="flex flex-col h-full w-full bg-[#ffffff] rounded-[40px] shadow-2xl">

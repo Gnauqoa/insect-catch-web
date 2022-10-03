@@ -91,7 +91,7 @@ const MenuPage = () => {
 
 const MenuBar = () => {
   return (
-    <div className="flex flex-col relative p-14 gap-[200px] h-full border-r-[1px] border-[#000000] rounded-[20px] ">
+    <div className="xl:flex hidden flex-col relative p-14 gap-[200px] h-full border-r-[1px] border-[#000000] rounded-[20px] ">
       <Introduce />
       <MenuPage />
       <LogOut />

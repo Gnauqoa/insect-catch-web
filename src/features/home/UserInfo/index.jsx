@@ -67,7 +67,7 @@ const Reminders = () => {
 
 const UserInfo = () => {
   return (
-    <div className="flex flex-col w-[35%] h-full gap-8 p-12 pt-[70px] bg-[#F6F2DD] rounded-r-[40px]">
+    <div className="xl:flex hidden flex-col w-[35%] h-full gap-8 p-12 pt-[70px] bg-[#F6F2DD] rounded-r-[40px]">
       <Introduce />
       <Reminders />
     </div>
