@@ -8,7 +8,7 @@ import MenuBarMobile from "./Mobile/index.jsx";
 const MenuBar = () => {
   return (
     <div>
-      <div className="xl:flex hidden">
+      <div className="xl:flex hidden h-full">
         <MenuBarDesktop/>
       </div>
       <div className="flex xl:hidden">

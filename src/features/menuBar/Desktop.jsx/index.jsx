@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-
+import React from "react";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Button, IconButton, Link, Typography } from "@mui/material";
+import { Button, Link, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation } from "react-router-dom";
+import { MenuOption } from "../data";
 
 const Introduce = () => {
   return (
@@ -49,11 +49,6 @@ const LogOut = () => {
 
 const MenuPage = () => {
   const location = useLocation();
-  const MenuOption = [
-    { title: "Home", url: "/", icon: <HomeIcon /> },
-    { title: "Device", url: "/device", icon: <DeviceHubIcon /> },
-    { title: "Settings", url: "/settings", icon: <SettingsIcon /> },
-  ];
   return (
     <div className="flex flex-col gap-12">
       {MenuOption.map((data, index) => {
@@ -90,7 +85,7 @@ const MenuPage = () => {
 
 const MenuBarDesktop = () => {
   return (
-    <div className="xl:flex hidden flex-col relative p-14 gap-[200px] h-full border-r-[1px] border-[#000000] rounded-[20px] ">
+    <div className="xl:flex hidden bg-[#FFD143] bg-opacity-[0.8] shadow-2xl flex-col relative p-14 gap-[200px] h-full rounded-r-[20px] ">
       <Introduce />
       <MenuPage />
       <LogOut />
