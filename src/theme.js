@@ -22,6 +22,17 @@ const theme = createTheme({
     text_black: { main: "#000000" },
     text_green: { main: "#3C652F" },
   },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: "rgba(245,228,139,0.85)",
+          borderTopRightRadius: "24px",
+          borderBottomRightRadius: "24px"
+        }
+      }
+    }
+  }
 });
 
 export default theme
