@@ -91,27 +91,16 @@ const LogOut = () => {
 const MenuBarMobile = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="fixed top-[50%] left-3 w-screen">
+    <div className="fixed top-[50%] left-1 w-screen">
       <IconButton
         sx={{
-          background: "#ffffff",
+          background: "#F5E48B",
         }}
         onClick={() => setOpen(true)}
       >
         <KeyboardDoubleArrowRightIcon />
       </IconButton>
-      <Drawer
-        sx={{
-          ".MuiModal-root": {
-            background: "#000000",
-          },
-          paper: {
-            background: "#000000",
-          },
-        }}
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <Drawer open={open} onClose={() => setOpen(false)}>
         <div className="flex flex-col p-8 pr-6 w-[270px] h-full gap-24">
           <Introduce setOpen={setOpen} />
           <MenuPage />

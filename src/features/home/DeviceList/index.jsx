@@ -105,7 +105,7 @@ const DeviceList = () => {
   }, []);
   const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="xl:flex flex-col gap-6 w-full hidden">
       <div className="flex flex-row">
         <p className="font-[700] text-[24px]">Your device</p>
         <div className="ml-auto flex flex-col items-center">
