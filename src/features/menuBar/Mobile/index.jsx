@@ -94,7 +94,8 @@ const MenuBarMobile = () => {
     <div className="fixed top-[50%] left-1 w-screen">
       <IconButton
         sx={{
-          background: "#F5E48B",
+          background: "#FFD143",
+          color: "#000000"
         }}
         onClick={() => setOpen(true)}
       >
