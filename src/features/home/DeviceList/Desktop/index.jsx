@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getDeviceInfoData } from "./data";
-import ConnectedIcon from "./assets/connected.png";
-import DisconnectIcon from "./assets/disconnect.png";
+import { getDeviceInfoData } from "../data";
+
 import {
   Button,
   Table,
@@ -9,11 +8,17 @@ import {
   TableHead,
   TableRow,
   Typography,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
+import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import WifiOffIcon from "@mui/icons-material/WifiOff";
+import WifiIcon from "@mui/icons-material/Wifi";
+import CellWifiIcon from "@mui/icons-material/CellWifi";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
@@ -63,23 +68,46 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
         </Typography>
       </StyledTableCell>
       <StyledTableCell align="right">
-        {
-          <img
-            className="w-[35px] ml-auto"
-            src={status ? ConnectedIcon : DisconnectIcon}
-          />
-        }
+        <Tooltip
+          title={
+            status === 1
+              ? "Connected by Wifi"
+              : status === 0
+              ? "Disconnected"
+              : "Connected by GPRS"
+          }
+        >
+          <IconButton sx={{ color: "#000000" }}>
+            {status === 1 ? (
+              <WifiIcon />
+            ) : status === 0 ? (
+              <WifiOffIcon />
+            ) : (
+              <CellWifiIcon />
+            )}
+          </IconButton>
+        </Tooltip>
       </StyledTableCell>
       <StyledTableCell align="right">
-        <Typography
-          sx={{
-            fontSize: 17,
-            fontWeight: 700,
-            color: "#121212",
-          }}
-        >
-          {battery}
-        </Typography>
+        <div className="flex flex-row justify-end gap-4">
+          <ElectricBoltIcon />
+          <Typography
+            sx={{
+              color:
+                battery > 75
+                  ? "batterySlider.high"
+                  : battery > 50
+                  ? "batterySlider.good"
+                  : battery > 25
+                  ? "batterySlider.normal"
+                  : battery > 10
+                  ? "batterySlider.week"
+                  : "batterySlider.veryWeek",
+            }}
+          >
+            {battery}%
+          </Typography>
+        </div>
       </StyledTableCell>
       <StyledTableCell align="right">
         <Button
@@ -98,14 +126,14 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
   );
 };
 
-const DeviceList = () => {
+const DeviceListDesktop = () => {
   const [deviceData, setDeviceData] = useState([]);
   useEffect(() => {
     setDeviceData(getDeviceInfoData().slice(0, 3));
   }, []);
   const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="xl:flex flex-col gap-6 w-full hidden">
       <div className="flex flex-row">
         <p className="font-[700] text-[24px]">Your device</p>
         <div className="ml-auto flex flex-col items-center">
@@ -168,4 +196,4 @@ const DeviceList = () => {
   );
 };
 
-export default DeviceList;
+export default DeviceListDesktop;

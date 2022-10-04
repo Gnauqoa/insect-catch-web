@@ -2,6 +2,13 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
+    batterySlider:{
+      high: "#6abd43",
+      good: "#afd235",
+      normal: "#e8e71d",
+      week: "#f6951c",
+      veryWeek: "#ee1b24"
+    },
     primary: {
       main: "#D63384",
     },

@@ -18,7 +18,7 @@ const App = () => (
       >
         <div className="min-h-screen flex  xl:flex-row gap-8 w-full">
           <MenuBar />
-          <div className="flex flex-col p-8 w-full">
+          <div className="flex flex-col xl:p-8 p-4 w-full">
             <div className="flex flex-col h-full w-full bg-[#ffffff] rounded-[40px] shadow-2xl">
               <Routes>
                 <Route path="/" element={<Home />} />
