@@ -2,19 +2,16 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    batterySlider:{
-      high: "#6abd43",
-      good: "#afd235",
-      normal: "#e8e71d",
-      week: "#f6951c",
-      veryWeek: "#ee1b24"
+
+    textField: {
+      main: "F3C2DA",
     },
     primary: {
-      main: "#D63384",
+      main: "#FFAB00",
     },
     secondary: {
       main: "#FFE8F3",
-      contrastText: "#D63384"
+      contrastText: "#D63384",
     },
     text_neutral: {
       main: "#777E91",
@@ -26,20 +23,100 @@ const theme = createTheme({
     border_moreDark: {
       main: "#E6E8EC",
     },
-    text_black: { main: "#000000" },
-    text_green: { main: "#3C652F" },
+    text_black: { main: "#23262F" },
+    text_green: { main: "#45B26B" },
   },
   components: {
-    MuiDrawer: {
+    MuiTextField: {
       styleOverrides: {
-        paper: {
-          background: "rgba(245,228,139,0.85)",
-          borderTopRightRadius: "24px",
-          borderBottomRightRadius: "24px"
-        }
-      }
-    }
-  }
+        root: {
+          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+            {
+              display: "none",
+            },
+          "& input[type=number]": {
+            MozAppearance: "textfield",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          width: "100%",
+          borderStyle: "solid",
+          borderWidth: "3px",
+          borderColor: "transparent",
+        },
+      },
+      variants: [
+        {
+          props: { variant: "primary filled" },
+          style: {
+
+            color: "#FFFFFF",
+            background: "#FFAB00",
+            ":hover": {
+              background: "#CC8900",
+            },
+            ":focus": {
+              background: "#FFAB00",
+              borderColor: "#FFDD96",
+            },
+            ":disabled": {
+              color: "#ffffff",
+              background: "#9D9AA4",
+            },
+          },
+        },
+        {
+          props: { variant: "primary link" },
+          style: {
+            color: "#FFAB00",
+            background: "transparent",
+            ":hover": {
+              color: "#CC8900",
+            },
+            ":focus": {
+              color: "#CC8900",
+            },
+            ":disabled": {
+              color: "#ffffff",
+              background: "#9D9AA4",
+            },
+          },
+        },
+        {
+          props: { size: "small" },
+          style: {
+            width: 97,
+            height: 32,
+            fontSize: 12,
+            fontWeight: 600,
+          },
+        },
+        {
+          props: { size: "medium" },
+          style: {
+            width: 137,
+            height: 44,
+            fontSize: 14,
+            fontWeight: 700,
+          },
+        },
+        {
+          props: { size: "large" },
+          style: {
+            width: 168,
+            height: 54,
+            fontSize: 16,
+            fontWeight: 700,
+          },
+        },
+      ],
+    },
+  },
 });
 
-export default theme
+export default theme;
