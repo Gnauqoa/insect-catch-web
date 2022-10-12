@@ -49,6 +49,7 @@ const LogOut = () => {
 
 const MenuPage = () => {
   const location = useLocation();
+  console.log(location);
   return (
     <div className="flex flex-col gap-12">
       {MenuOption.map((data, index) => {

@@ -2,7 +2,13 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-
+    batterySlider: {
+      high: "#28b360",
+      good: "#28b360",
+      normal: "#f0c419",
+      week: "#e77d27",
+      veryWeek: "#c03b2a",
+    },
     textField: {
       main: "F3C2DA",
     },
@@ -54,7 +60,6 @@ const theme = createTheme({
         {
           props: { variant: "primary filled" },
           style: {
-
             color: "#FFFFFF",
             background: "#FFAB00",
             ":hover": {

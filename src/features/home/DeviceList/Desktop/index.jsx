@@ -91,7 +91,20 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
       </StyledTableCell>
       <StyledTableCell align="right">
         <div className="flex flex-row justify-end gap-4">
-          <ElectricBoltIcon />
+          <ElectricBoltIcon
+            sx={{
+              color:
+                battery > 75
+                  ? "batterySlider.high"
+                  : battery > 50
+                  ? "batterySlider.good"
+                  : battery > 25
+                  ? "batterySlider.normal"
+                  : battery > 10
+                  ? "batterySlider.week"
+                  : "batterySlider.veryWeek",
+            }}
+          />
           <Typography
             sx={{
               color:

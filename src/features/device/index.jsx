@@ -8,7 +8,7 @@ import CellWifiIcon from "@mui/icons-material/CellWifi";
 
 const DeviceNode = ({ status, name, location }) => {
   return (
-    <Link href="device" underline="none">
+    <Link href="/device/control" underline="none">
       <div
         className={
           "flex flex-col w-full gap-4 p-2 hover:transition-all border-[2px] border-transparent rounded-[24px] hover:border-[" +

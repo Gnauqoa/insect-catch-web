@@ -10,6 +10,7 @@ import AuthLayout from "./layout/auth";
 import Login from "./features/auth/login";
 import DevicePage from "./features/device";
 import DeviceControl from "./features/deviceControl";
+
 const App = () => (
   <ThemeProvider theme={theme}>
     <BrowserRouter>
