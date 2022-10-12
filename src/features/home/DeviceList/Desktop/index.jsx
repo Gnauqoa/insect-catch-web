@@ -10,6 +10,7 @@ import {
   Typography,
   IconButton,
   Tooltip,
+  Link,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -137,23 +138,25 @@ const DeviceListDesktop = () => {
       <div className="flex flex-row">
         <p className="font-[700] text-[24px]">Your device</p>
         <div className="ml-auto flex flex-col items-center">
-          <Button
-            sx={{
-              color: "#FFD143",
-              textTransform: "none",
-            }}
-            endIcon={<ArrowForwardIosIcon />}
-          >
-            <Typography
+          <Link underline="none" href="device">
+            <Button
               sx={{
                 color: "#FFD143",
-                fontSize: 20,
-                fontWeight: 700,
+                textTransform: "none",
               }}
+              endIcon={<ArrowForwardIosIcon />}
             >
-              View All
-            </Typography>
-          </Button>
+              <Typography
+                sx={{
+                  color: "#FFD143",
+                  fontSize: 20,
+                  fontWeight: 700,
+                }}
+              >
+                View All
+              </Typography>
+            </Button>
+          </Link>
         </div>
       </div>
       <Table>

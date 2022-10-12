@@ -9,6 +9,7 @@ import AuthLayout from "./layout/auth";
 
 import Login from "./features/auth/login";
 import DevicePage from "./features/device";
+import DeviceControl from "./features/deviceControl";
 const App = () => (
   <ThemeProvider theme={theme}>
     <BrowserRouter>
@@ -16,7 +17,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<NormalLayout />}>
             <Route index element={<Home />} />
-            <Route path="device" element={<DevicePage />} />
+            <Route path="device">
+              <Route index element={<DevicePage/>} />
+              <Route path="control" element={<DeviceControl />} />
+            </Route>
             <Route path="*" element={<p>There's nothing here!</p>} />
           </Route>
           <Route path="/auth" element={<AuthLayout />}>
