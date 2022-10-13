@@ -8,6 +8,7 @@ import NormalLayout from "./layout/normal";
 import AuthLayout from "./layout/auth";
 
 import Login from "./features/auth/login";
+import Register from "./features/auth/register";
 import DevicePage from "./features/device";
 import DeviceControl from "./features/deviceControl";
 
@@ -26,6 +27,8 @@ const App = () => (
           </Route>
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+
             <Route path="*" element={<p>There's nothing here!</p>} />
           </Route>
         </Routes>{" "}

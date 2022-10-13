@@ -211,7 +211,7 @@ const gg =
 const LocationArea = () => {
   return (
     <div className="flex flex-col h-full gap-6">
-      <div className="flex flex-col h-full gap-4">
+      <div className="flex flex-col max-h-50% gap-4">
         <div className="flex flex-row items-center gap-2">
           <Typography sx={{ fontSize: 24, fontWeight: 700 }}>
             Camera picture
@@ -271,10 +271,10 @@ const DeviceControl = () => {
     <div className="xl:h-screen">
       <div className="flex xl:flex-row flex-col w-full h-full rounded-[32px] overflow-auto">
         <div className="flex flex-col min-w-[50%] gap-16 xl:p-14 p-6">
-          <Introduce />
+          {/* <Introduce /> */}
           <MainArea />
         </div>
-        <div className="flex flex-col w-full bg-[#F6F2DD] xl:p-14 p-6 overflow-hidden">
+        <div className="flex flex-col w-full h-full bg-[#F6F2DD] xl:p-14 p-6 overflow-hidden">
           <LocationArea />
         </div>
       </div>
