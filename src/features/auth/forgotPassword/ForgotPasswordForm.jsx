@@ -145,9 +145,15 @@ const InputArea = ({ setSnackBar }) => {
 const Introduce = () => {
   return (
     <div className="flex flex-col gap-4 items-center justify-center text-center">
-      <p className="xl:text-[48px] text-[32px] font-[700] text-[#121115]">
+      <Typography
+        sx={{
+          fontSize: 48,
+          fontWeight: 700,
+          color: "#121115",
+        }}
+      >
         Forgot Password ?
-      </p>
+      </Typography>
       <div>
         <Typography
           sx={{

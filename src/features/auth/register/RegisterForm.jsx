@@ -6,80 +6,35 @@ import Apple from "../../shared/assets/apple.png";
 import Lock from "../../shared/assets/lock.png";
 import Email from "../../shared/assets/email.png";
 import MyTextField from "../../atoms/myTextField";
-import SelectAtom from "../../atoms/select/index";
 import {
   getEmailMessage,
   getPasswordMessage,
-  getZipCodeMessage,
+  getBirthMessage,
   updateState,
 } from "../validate ";
-import MySnackBar from "../../shared/snackbar";
-
-const getMonthSelectData = () => {
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-};
-const getDaySelectData = (month) => {
-  const selectData = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  let data = [];
-  for (let i = 1; i <= selectData[month - 1]; ++i) {
-    data.push(i);
-  }
-  return data;
-};
-const getYearSelectData = () => {
-  let data = [];
-  for (let i = 1950; i <= 2022; ++i) {
-    data.push(i);
-  }
-  return data;
-};
+import { SignUp } from "../../../api/auth/register";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../../../layout/auth/snackBarReducer";
 
 const RegisterForm = () => {
-  const [snackBar, setSnackBar] = useState({
-    message: "Please enter a valid email.",
-    type: "error",
-    open: false,
-  });
-  const handleSetOpenSnackBar = (status) => {
-    setSnackBar({
-      ...snackBar,
-      open: status,
-    });
-  };
-  const handleSetSnackBar = (message, type = "error", open = true) => {
-    setSnackBar({
-      message: message,
-      type: type,
-      open: open,
-    });
-  };
   return (
     <div className="flex flex-col h-full justify-center items-center gap-4 relative">
       <Introduce />
       <RegisterType />
       <Divider />
-      <InputArea setSnackBar={handleSetSnackBar} />
-      <MySnackBar
-        message={snackBar.message}
-        type={snackBar.type}
-        setOpen={(status) => handleSetOpenSnackBar(status)}
-        open={snackBar.open}
-      />
+      <InputArea />
     </div>
   );
 };
 
-const InputArea = ({ setSnackBar }) => {
-  const [fistName, setFistName] = useState({
+const InputArea = () => {
+  const [name, setName] = useState({
     value: "",
     message: "",
     error: false,
   });
-  const [lastName, setLastName] = useState({
-    value: "",
-    message: "",
-    error: false,
-  });
+
   const [password, setPassword] = useState({
     value: "",
     message: "",
@@ -90,27 +45,18 @@ const InputArea = ({ setSnackBar }) => {
     message: "",
     error: false,
   });
-  const [zipCode, setZipCode] = useState({
+
+  const [birth, setBirth] = useState({
     value: "",
     message: "",
     error: false,
   });
-  const [month, setMonth] = useState({
-    value: "",
-    message: "",
-    error: false,
-  });
-  const [day, setDay] = useState({
-    value: "",
-    message: "",
-    error: false,
-  });
-  const [year, setYear] = useState({
-    value: "",
-    message: "",
-    error: false,
-  });
-  const [daySelectData, setDaySelectData] = useState([]);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleSetSnackBar = (message, type = "error", open = true) => {
+    dispatch(setSnackBar({ message: message, type: type, open: open }));
+  };
 
   const onPasswordChange = (e) => {
     const message = getPasswordMessage(e.currentTarget.value);
@@ -142,14 +88,21 @@ const InputArea = ({ setSnackBar }) => {
       ))
     );
   };
-  const onZipcodeChange = (e) => {
-    const message = getZipCodeMessage(e.currentTarget.value);
+  const onNameChange = (e) => {
     updateState(
-      setZipCode,
+      setName,
+      e.currentTarget.value,
+      !e.currentTarget.value.length ? "Fist name can't be empty." : ""
+    );
+  };
+  const onBirthChange = (e) => {
+    const message = getBirthMessage(e.currentTarget.value);
+    updateState(
+      setBirth,
       e.currentTarget.value,
       message.map((data, index) => (
         <span
-          key={"zip code message " + index}
+          key={"birth message " + index}
           className="flex flex-row items-center"
         >
           {data}
@@ -157,47 +110,16 @@ const InputArea = ({ setSnackBar }) => {
       ))
     );
   };
-  const onLastNameChange = (e) => {
-    updateState(
-      setLastName,
-      e.currentTarget.value,
-      !e.currentTarget.value.length ? "Last name can't be empty." : ""
-    );
-  };
-  const onFistNameChange = (e) => {
-    updateState(
-      setFistName,
-      e.currentTarget.value,
-      !e.currentTarget.value.length ? "Fist name can't be empty." : ""
-    );
-  };
-  const onMonthSelect = (e) => {
-    updateState(setMonth, e.target.value);
-    setDaySelectData(getDaySelectData(month.value));
-  };
-  const onDaySelect = (e) => {
-    updateState(setDay, e.target.value);
-  };
-  const onYearSelect = (e) => {
-    updateState(setYear, e.target.value);
-  };
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     const messageSnackBar = [];
-    if (!fistName.value.length) {
-      setFistName({
-        ...fistName,
-        message: "Fist name can't be empty.",
+    if (!name.value.length) {
+      setName({
+        ...name,
+        message: "Full name can't be empty.",
         error: true,
       });
-      messageSnackBar.push("Fist name can't be empty.");
-    }
-    if (!lastName.value.length) {
-      setLastName({
-        ...lastName,
-        message: "Last name can't be empty.",
-        error: true,
-      });
-      messageSnackBar.push("Last name can't be empty.");
+      messageSnackBar.push("Full name can't be empty.");
     }
     const messageEmail = getEmailMessage(email.value);
     if (messageEmail.length) {
@@ -233,13 +155,13 @@ const InputArea = ({ setSnackBar }) => {
       });
       messagePassword.map((data) => messageSnackBar.push(data));
     }
-    const zipCodeMessage = getZipCodeMessage(zipCode.value);
-    if (zipCodeMessage.length) {
-      setZipCode({
-        ...zipCode,
-        message: zipCodeMessage.map((data, index) => (
+    const messageBirth = getBirthMessage(birth.value);
+    if (messageBirth.length > 0) {
+      setBirth({
+        ...birth,
+        message: messageBirth.map((data, index) => (
           <span
-            key={"email message " + index}
+            key={"birth message " + index}
             className="flex flex-row items-center gap-1"
           >
             {data}
@@ -247,10 +169,11 @@ const InputArea = ({ setSnackBar }) => {
         )),
         error: true,
       });
-      zipCodeMessage.map((data) => messageSnackBar.push(data));
+      console.log(birth);
+      messageBirth.map((data) => messageSnackBar.push(data));
     }
     if (messageSnackBar.length) {
-      setSnackBar(
+      handleSetSnackBar(
         messageSnackBar.map((data, index) => (
           <span
             key={"snack bar message " + index}
@@ -263,8 +186,26 @@ const InputArea = ({ setSnackBar }) => {
         true
       );
     } else {
-      setSnackBar("", true, false);
+      handleSetSnackBar("", true, false);
       // paste code register here
+      try {
+        const response = await SignUp(
+          name.value,
+          email.value,
+          password.value,
+          birth.value
+        );
+        if (response.uid === undefined) {
+          handleSetSnackBar(response.error, "error", true);
+        } else {
+          handleSetSnackBar(
+            "Register success, login now!", "success", true
+            );
+          navigate("/auth/login");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   return (
@@ -282,19 +223,11 @@ const InputArea = ({ setSnackBar }) => {
           </Typography>
           <div className="flex flex-row gap-2 ">
             <MyTextField
-              onChange={(e) => onFistNameChange(e)}
-              placeholder="Fist name"
-              message={fistName.message}
+              onChange={(e) => onNameChange(e)}
+              placeholder="Full name"
+              message={name.message}
               type="alphabet"
-              error={fistName.error}
-            />
-
-            <MyTextField
-              onChange={(e) => onLastNameChange(e)}
-              placeholder="Last name"
-              message={lastName.message}
-              type="alphabet"
-              error={lastName.error}
+              error={name.error}
             />
           </div>
         </div>
@@ -315,60 +248,24 @@ const InputArea = ({ setSnackBar }) => {
           error={password.error}
         />
         <MyTextField
-          type="number"
-          label="Zipcode"
-          placeholder="eg: 12345-6789"
-          onChange={onZipcodeChange}
-          message={zipCode.message}
-          error={zipCode.error}
+          type="date"
+          onChange={(e) => onBirthChange(e)}
+          label="Birth"
+          message={birth.message}
+          error={birth.error}
+          placeholder="birth"
         />
-        <div className="flex flex-row gap-[6px] items-end">
-          <SelectAtom
-            value={month.value}
-            setValue={(e) => onMonthSelect(e)}
-            optionList={getMonthSelectData()}
-            label={
-              <>
-                Birthday
-                <span className="pl-1 text-[14px] text-[#9D9AA4] font-500">
-                  (optional)
-                </span>
-              </>
-            }
-            placeholder="Month"
-          />
-          <SelectAtom
-            value={day.value}
-            setValue={(e) => onDaySelect(e)}
-            optionList={daySelectData}
-            placeholder="Day"
-          />
-          <SelectAtom
-            value={year.value}
-            setValue={(e) => onYearSelect(e)}
-            optionList={getYearSelectData()}
-            placeholder="Year"
-          />
-        </div>
       </div>
       <div className="flex flex-col items-center justify-center text-center	">
         <Typography sx={{ color: "#37343E", fontWeight: 400, fontSize: 14 }}>
           By continuing, you agree to Lexor’s
-          <Link
-            href=""
-            sx={{ color: "#D63384", fontWeight: 500 }}
-            underline="none"
-          >
+          <Link href="" sx={{ fontWeight: 500 }} underline="none">
             {" Terms of Service "}
           </Link>
         </Typography>
         <Typography sx={{ color: "#37343E", fontWeight: 400, fontSize: 14 }}>
           and acknowledge Lexor's
-          <Link
-            href=""
-            sx={{ color: "#D63384", fontWeight: 500, fontSize: 14 }}
-            underline="none"
-          >
+          <Link href="" sx={{ fontWeight: 500, fontSize: 14 }} underline="none">
             {" Privacy Policy. "}
           </Link>
         </Typography>
@@ -376,7 +273,7 @@ const InputArea = ({ setSnackBar }) => {
       <Button
         onClick={handleSubmit}
         type="submit"
-        sx={{ borderRadius: 90 }}
+        sx={{ borderRadius: 90, width: "100%" }}
         variant="primary filled"
       >
         Create account
@@ -384,11 +281,7 @@ const InputArea = ({ setSnackBar }) => {
       <div className="flex flex-row text-center items-center justify-center">
         <Typography sx={{ color: "#5C5668", fontWeight: 400, fontSize: 14 }}>
           Already have an account?
-          <Link
-            href="login"
-            sx={{ color: "#D63384", fontWeight: 500 }}
-            underline="none"
-          >
+          <Link href="login" sx={{ fontWeight: 500 }} underline="none">
             {" Log in"}
           </Link>
         </Typography>
@@ -468,10 +361,15 @@ const RegisterType = () => {
 const Introduce = () => {
   return (
     <div className="flex flex-col gap-4 items-center">
-      <p className="xl:text-[48px] text-[32px] font-[700] text-[#121115]">
+      <Typography
+        sx={{
+          fontSize: 48,
+          fontWeight: 700,
+          color: "#121115",
+        }}
+      >
         Sign up to Lexor
-      </p>
-
+      </Typography>
       <Typography
         sx={{
           fontSize: 14,

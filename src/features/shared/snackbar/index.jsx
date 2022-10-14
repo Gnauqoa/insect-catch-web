@@ -9,12 +9,12 @@ const MySnackBar = ({ message, type, open, setOpen }) => {
     setOpen(false);
   };
   return (
-    <div className={"absolute top-0 " + (open === true ? "drop-shadow-xl" : "hidden")}>
+    <div className={"sticky h-0 top-0 z-10 items-center justify-center left-50%" + (open === true ? "drop-shadow-xl" : "hidden")}>
       <Slide direction="down" in={open}>
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-center">
           <div
             className={
-              "flex p-2 flex-col justify-center items-center rounded-l-[8px] " +
+              "flex flex-col h- p-2 justify-center items-center rounded-l-[8px] " +
               (type === "error" ? "bg-[#E1251B]" : "bg-[#2A9F47]")
             }
           >

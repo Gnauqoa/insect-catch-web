@@ -177,7 +177,7 @@ const DeviceListDesktop = () => {
           <TableRow>
             {InfoDeviceShow.map((data, index) => (
               <StyledTableCell
-                align={index === 0 ? "" : "right"}
+                align={index === 0 ? "left" : "right"}
                 key={"device properties show " + index}
               >
                 <Typography

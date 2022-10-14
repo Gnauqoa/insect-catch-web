@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserInfo from "./UserInfo";
 import Alert1 from "./assets/alert1.png";
 import Alert2 from "./assets/alert2.png";
 import DeviceListDesktop from "./DeviceList/Desktop/index";
 import DeviceListMobile from "./DeviceList/Mobile";
+import { Typography } from "@mui/material";
+import { getUserData } from "../../api/home/getUserData";
+import { useDispatch, useSelector } from "react-redux";
 
 const Introduce = () => {
   return (
     <div className="flex flex-col gap-4 w-full">
-      <p className="font-[700] text-[48px]">Home</p>
-      <p className="font-[400] text-[#979CA5] text-[16px]">
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: 48,
+        }}
+      >
+        Home
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: 400,
+          fontSize: 16,
+          color: "#979CA5",
+        }}
+      >
         Welcome back, Bella! Your progress is really good. Keep it up
-      </p>
+      </Typography>
+
       <div className="flex xl:flex-row flex-col w-full gap-6 overflow-hidden  ">
         <img
           className="h-full w-full object-cover overflow-hidden  rounded-[32px]"
@@ -47,6 +64,17 @@ const UserArea = () => {
 };
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const uid = useSelector((state) => state.userToken);
+  const handleGetUserData = async () => {
+    try {
+      const response = await getUserData(uid);
+      console.log(response);
+    } catch (err) {}
+  };
+  useEffect(() => {
+    handleGetUserData();
+  }, []);
   return (
     <div className="flex flex-row w-full h-full gap-[60px]">
       <MainArea />

@@ -12,11 +12,12 @@ const DeviceNode = ({ status, name, location }) => {
       <div
         className={
           "flex flex-col w-full gap-4 p-2 hover:transition-all border-[2px] border-transparent rounded-[24px] hover:border-[" +
-          (status === 1 ? "#2A9F47" : (status === 0 ? "#E1251B" : "#FFAB00")) + "]"
+          (status === 1 ? "#2A9F47" : status === 0 ? "#E1251B" : "#FFAB00") +
+          "]"
         }
       >
-        <div className="rounded-[30px] overflow-hidden">
-          <img className="w-auto h-[250px]" src={Alert1} alt="camera img" />
+        <div className="rounded-[30px] h-[250px] overflow-hidden">
+          <img className="w-auto h-full  object-cover" src={Alert1} alt="camera img" />
         </div>
         <div className="flex flex-col gap-2 pb-2 border-b-[1px] border-[#E6E8EC]">
           <Typography
@@ -93,10 +94,23 @@ const DeviceNode = ({ status, name, location }) => {
 const Introduce = () => {
   return (
     <div className="flex flex-col gap-4 w-full">
-      <p className="font-[700] text-[48px]">Your device</p>
-      <p className="font-[400] text-[#979CA5] text-[16px]">
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: 48,
+        }}
+      >
+        Your device
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: 400,
+          fontSize: 16,
+          color: "#979CA5",
+        }}
+      >
         Welcome back, This is all your device.
-      </p>
+      </Typography>
     </div>
   );
 };

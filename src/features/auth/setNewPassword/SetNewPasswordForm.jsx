@@ -157,7 +157,7 @@ const InputArea = ({ setSnackBar }) => {
           type="password"
           onChange={(e) => onPasswordChange(e)}
           startIcon={Lock}
-          label="Password"
+          label="Pass word"
           message={password.message}
           error={password.error}
         />
@@ -203,9 +203,15 @@ const InputArea = ({ setSnackBar }) => {
 const Introduce = () => {
   return (
     <div className="flex flex-col gap-4 items-center text-center">
-      <p className="xl:text-[48px] text-[32px] font-[700] text-[#121115]">
+      <Typography
+        sx={{
+          fontSize: 48,
+          fontWeight: 700,
+          color: "#121115",
+        }}
+      >
         Set new password
-      </p>
+      </Typography>
       <Typography
         sx={{
           fontSize: 14,

@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import get from "lodash/fp/get";
 
 const currentUserSlice = createSlice({
   name: "currentUser",
-  initialState: {},
+  initialState: {
+    uid: "",
+    token: "",
+  },
   reducers: {
-    store(state, action) {
-      return action.payload;
+    updateUserToken: (state, data) => {
+      state.uid = data.payload.uid;
+      state.token = data.payload.token;
     },
   },
 });
 
-const { actions, reducer } = currentUserSlice;
-
-export const isLoggedInSelector = (state) =>
-  !!get("currentUser.username", state);
-
-export const { store } = actions;
-
-export default reducer;
+export const { updateUserToken } = currentUserSlice.actions;
+export default currentUserSlice.reducer;

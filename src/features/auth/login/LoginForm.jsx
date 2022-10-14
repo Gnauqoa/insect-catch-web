@@ -5,47 +5,28 @@ import Google from "../../shared/assets/google.png";
 import Apple from "../../shared/assets/apple.png";
 import Lock from "../../shared/assets/lock.png";
 import Email from "../../shared/assets/email.png";
-import { updateState, getPasswordMessage, getEmailMessage } from "../validate ";
-// api import
 import MyTextField from "../../atoms/myTextField";
+import { updateState, getEmailMessage } from "../validate ";
+// api import
 import CheckboxAtom from "../../atoms/checkBox/index";
-import MySnackBar from "./../../shared/snackbar/index";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../../../layout/auth/snackBarReducer";
+import { SignIn } from "../../../api/auth/login";
+import { updateUserToken } from "./reducer";
+
 const LoginForm = () => {
-  const [snackBar, setSnackBar] = useState({
-    message: "Please enter a valid email.",
-    type: "error",
-    open: false,
-  });
-  const handleSetOpenSnackBar = (status) => {
-    setSnackBar({
-      ...snackBar,
-      open: status,
-    });
-  };
-  const handleSetSnackBar = (message, type = "error", open = true) => {
-    setSnackBar({
-      message: message,
-      type: type,
-      open: open,
-    });
-  };
   return (
     <div className="flex flex-col h-full justify-center items-center gap-4 relative ">
       <Introduce />
       <LoginType />
       <Divider />
-      <EmailLogin setSnackBar={handleSetSnackBar} />
-      <MySnackBar
-        message={snackBar.message}
-        type={snackBar.type}
-        setOpen={(status) => handleSetOpenSnackBar(status)}
-        open={snackBar.open}
-      />
+      <EmailLogin />
     </div>
   );
 };
 
-const EmailLogin = ({ setSnackBar }) => {
+const EmailLogin = () => {
   const [username, setUsername] = useState({
     value: "",
     error: false,
@@ -57,7 +38,11 @@ const EmailLogin = ({ setSnackBar }) => {
     message: "",
   });
   const [remember, setRemember] = useState(false);
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleSetSnackBar = (message, type = "error", open = true) => {
+    dispatch(setSnackBar({ message: message, type: type, open: open }));
+  };
   const onUserNameChange = (e) => {
     const messageUserName = getEmailMessage(e.currentTarget.value);
     updateState(
@@ -74,19 +59,7 @@ const EmailLogin = ({ setSnackBar }) => {
     );
   };
   const onPasswordChange = (e) => {
-    const message = getPasswordMessage(e.currentTarget.value);
-    updateState(
-      setPassword,
-      e.currentTarget.value,
-      message.map((data, index) => (
-        <span
-          key={"password message " + index}
-          className="flex flex-row items-center"
-        >
-          {data}
-        </span>
-      ))
-    );
+    updateState(setPassword, e.currentTarget.value);
   };
   const onCheckBoxChange = (value) => {
     setRemember(value);
@@ -110,26 +83,8 @@ const EmailLogin = ({ setSnackBar }) => {
       });
       messageUserName.map((data) => messageSnackBar.push(data));
     }
-    const messagePassword = getPasswordMessage(password.value);
-    if (password.value.length < 6)
-      messageSnackBar.push("Password must be at least 6 characters in length.");
-    if (messagePassword.length > 1) {
-      setPassword({
-        ...password,
-        error: true,
-        message: messagePassword.map((data, index) => (
-          <span
-            key={"password message " + index}
-            className="flex flex-row items-center gap-1"
-          >
-            {data}
-          </span>
-        )),
-      });
-      messagePassword.map((data) => messageSnackBar.push(data));
-    }
     if (messageSnackBar.length) {
-      setSnackBar(
+      handleSetSnackBar(
         messageSnackBar.map((data, index) => (
           <span
             key={"snack bar message " + index}
@@ -142,8 +97,17 @@ const EmailLogin = ({ setSnackBar }) => {
         true
       );
     } else {
-      setSnackBar("", true, false);
-      // paste code register here
+      handleSetSnackBar("", true, false);
+      // paste code login here
+      const response = await SignIn(username.value, password.value);
+      if (response.user === undefined) {
+        handleSetSnackBar(response.error, "error", true);
+      } else {
+        const uid = response.user.uid;
+        const token = response.user.accessToken;
+        dispatch(updateUserToken({ uid, token }));
+        navigate("/");
+      }
     }
   };
 
@@ -175,7 +139,7 @@ const EmailLogin = ({ setSnackBar }) => {
               disabled={false}
               defaultValue={false}
               onChange={(value) => onCheckBoxChange(value)}
-              label="Remember for 30days"
+              label="Remember for 7 days"
             />
             <Link
               href="forgotPassword"
@@ -188,7 +152,9 @@ const EmailLogin = ({ setSnackBar }) => {
               }}
               underline="none"
             >
-              Forgot password
+              <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                Forgot password
+              </Typography>
             </Link>
           </div>
         </div>
@@ -221,7 +187,9 @@ const EmailLogin = ({ setSnackBar }) => {
             }}
             underline="none"
           >
-            Sign up for free
+            <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+              Sign up for free
+            </Typography>
           </Link>
         </div>
       </FormControl>

@@ -38,7 +38,6 @@ const MyTextField = ({
         </Typography>
         <img className="max-w-[14px] maw-h-[14px]" src={labelIcon} />
       </div>
-
       <TextField
         error={error}
         disabled={disabled}

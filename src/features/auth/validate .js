@@ -1,8 +1,8 @@
 const getPasswordMessage = (password) => {
   let messageArray = [];
-  if (password.length < 6) {
-    messageArray.push("Password must be at least 6 characters in length.");
-  } else if (password.length < 17) {
+  if (password.length < 8) {
+    messageArray.push("Password must be at least 8 characters in length.");
+  } else if (password.length < 12) {
     messageArray.push(
       <>
         Password strength: <span className="text-[#E1251B] pl-1">{" Week."}</span>
@@ -14,25 +14,25 @@ const getPasswordMessage = (password) => {
         Password strength: <span className="text-[#207936]">{" Great."}</span>
       </>
     );
-  const isNonWhiteSpace = /^\S*$/;
-  if (!isNonWhiteSpace.test(password))
-    messageArray.push("Password must not contain white spaces.");
-  if (password.search(/[!@#\$%\^&\*_]/) < 0) {
-    messageArray.push(
-      "Password must contain at least special char from -[ ! @ # $ % ^ & * _ ]."
-    );
-  }
-  const isContainsUppercase = /^(?=.*[A-Z]).*$/;
-  if (!isContainsUppercase.test(password))
-    messageArray.push("Password must have at least one uppercase character.");
+  // const isNonWhiteSpace = /^\S*$/;
+  // if (!isNonWhiteSpace.test(password))
+  //   messageArray.push("Password must not contain white spaces.");
+  // if (password.search(/[!@#\$%\^&\*_]/) < 0) {
+  //   messageArray.push(
+  //     "Password must contain at least special char from -[ ! @ # $ % ^ & * _ ]."
+  //   );
+  // }
+  // const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+  // if (!isContainsUppercase.test(password))
+  //   messageArray.push("Password must have at least one uppercase character.");
 
-  const isContainsLowercase = /^(?=.*[a-z]).*$/;
-  if (!isContainsLowercase.test(password))
-    messageArray.push("Password must have at least one lowercase character.");
+  // const isContainsLowercase = /^(?=.*[a-z]).*$/;
+  // if (!isContainsLowercase.test(password))
+  //   messageArray.push("Password must have at least one lowercase character.");
 
-  const isContainsNumber = /^(?=.*[0-9]).*$/;
-  if (!isContainsNumber.test(password))
-    messageArray.push("Password must contain at least one digit.");
+  // const isContainsNumber = /^(?=.*[0-9]).*$/;
+  // if (!isContainsNumber.test(password))
+  //   messageArray.push("Password must contain at least one digit.");
   return messageArray;
 };
 const getConfirmPasswordMessage = (confirmPassword, password) => {
@@ -53,12 +53,9 @@ const getEmailMessage = (email) => {
   if (email.length === 0) message.push("Email can't be empty.");
   return message;
 };
-const getZipCodeMessage = (zipCode) => {
+const getBirthMessage = (birth) => {
   const message = [];
-  if (!zipCode.length)
-    message.push("Zipcode can't be empty.")
-  if (zipCode.match(/^\d{5}(-\d{4})?(?!-)$/)) 
-    message.push("Zipcode is not correct type.");
+  if (birth.length < 1) message.push("Birth can't be empty");
   return message;
 };
 const updateState = (setState, value, message = "", error = false) => {
@@ -73,6 +70,6 @@ export {
   getConfirmPasswordMessage,
   getPasswordMessage,
   getEmailMessage,
-  getZipCodeMessage,
+  getBirthMessage,
   updateState,
 };
