@@ -5,8 +5,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MenuOption } from "../data";
+import { removeAccessToken } from "../../../localStorage";
 
 const Introduce = () => {
   return (
@@ -30,9 +31,14 @@ const Introduce = () => {
 };
 
 const LogOut = () => {
+  const navigate = useNavigate();
   return (
     <div className="mt-auto">
       <Button
+        onClick={() => {
+          removeAccessToken();
+          navigate("/auth/login");
+        }}
         startIcon={<LogoutIcon />}
         sx={{
           color: "text_black.main",
@@ -67,7 +73,8 @@ const MenuPage = () => {
                   location.pathname === data.url
                     ? "text_green.main"
                     : "text_black.main",
-                transition: "background 0.5s, color 0.5s, transform 0.5s, height 1s",
+                transition:
+                  "background 0.5s, color 0.5s, transform 0.5s, height 1s",
 
                 ":hover": {
                   transform: location.pathname === data.url ? "" : "scale(1.3)",

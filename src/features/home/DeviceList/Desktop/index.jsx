@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { getDeviceInfoData } from "../data";
-
+import React from "react";
 import {
   Button,
   Table,
@@ -14,12 +12,13 @@ import {
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import WifiOffIcon from "@mui/icons-material/WifiOff";
 import WifiIcon from "@mui/icons-material/Wifi";
 import CellWifiIcon from "@mui/icons-material/CellWifi";
+import { useSelector } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
@@ -141,15 +140,19 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
 };
 
 const DeviceListDesktop = () => {
-  const [deviceData, setDeviceData] = useState([]);
-  useEffect(() => {
-    setDeviceData(getDeviceInfoData().slice(0, 3));
-  }, []);
+  const deviceData = useSelector((state) => state.deviceData.deviceData)
   const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
   return (
     <div className="xl:flex flex-col gap-6 w-full hidden">
       <div className="flex flex-row">
-        <p className="font-[700] text-[24px]">Your device</p>
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: 24,
+          }}
+        >
+          Your device
+        </Typography>
         <div className="ml-auto flex flex-col items-center">
           <Link underline="none" href="device">
             <Button
@@ -195,7 +198,7 @@ const DeviceListDesktop = () => {
         </TableHead>
 
         <TableBody>
-          {deviceData.map((data, index) => (
+          {deviceData.slice(0, 3).map((data, index) => (
             <DeviceInfo
               key={"device info " + index}
               imgUrl={data.imgUrl}

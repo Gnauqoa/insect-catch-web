@@ -9,8 +9,7 @@ const userDataSlice = createSlice({
   },
   reducers: {
     updateUserData: (state, data) => {
-      state.uid = data.payload.uid;
-      state.token = data.payload.token;
+      return data.payload
     },
   },
 });

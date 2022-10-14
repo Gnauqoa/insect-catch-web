@@ -7,8 +7,12 @@ import DeviceListMobile from "./DeviceList/Mobile";
 import { Typography } from "@mui/material";
 import { getUserData } from "../../api/home/getUserData";
 import { useDispatch, useSelector } from "react-redux";
+import { updateUserData } from "./reducer";
+import { getUserDeviceList } from "../../api/device/getUserDeviceList";
+import { updateDeviceData } from "../device/reducer";
 
 const Introduce = () => {
+  const userName = useSelector((state) => state.userData.name)
   return (
     <div className="flex flex-col gap-4 w-full">
       <Typography
@@ -26,7 +30,7 @@ const Introduce = () => {
           color: "#979CA5",
         }}
       >
-        Welcome back, Bella! Your progress is really good. Keep it up
+        Welcome back, {userName}! Your progress is really good. Keep it up
       </Typography>
 
       <div className="flex xl:flex-row flex-col w-full gap-6 overflow-hidden  ">
@@ -65,15 +69,22 @@ const UserArea = () => {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.userToken);
   const handleGetUserData = async () => {
     try {
-      const response = await getUserData(uid);
-      console.log(response);
+      const response = await getUserData();
+      dispatch(updateUserData(response));
+    } catch (err) {}
+  };
+  const handleGetUserDeviceList = async () => {
+    try {
+      const response = await getUserDeviceList();
+      console.log(response)
+      dispatch(updateDeviceData(response))
     } catch (err) {}
   };
   useEffect(() => {
     handleGetUserData();
+    handleGetUserDeviceList();
   }, []);
   return (
     <div className="flex flex-row w-full h-full gap-[60px]">

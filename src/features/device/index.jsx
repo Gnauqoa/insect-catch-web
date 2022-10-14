@@ -1,10 +1,13 @@
-import { Button, Link, Slider, Tooltip, Typography } from "@mui/material";
-import React from "react";
+import { Link, Tooltip, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Alert1 from "./assets/alert1.png";
 import PlaceIcon from "@mui/icons-material/Place";
 import WifiOffIcon from "@mui/icons-material/WifiOff";
 import WifiIcon from "@mui/icons-material/Wifi";
 import CellWifiIcon from "@mui/icons-material/CellWifi";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDeviceList } from "../../api/device/getUserDeviceList";
+import { updateDeviceData } from "./reducer";
 
 const DeviceNode = ({ status, name, location }) => {
   return (
@@ -17,7 +20,11 @@ const DeviceNode = ({ status, name, location }) => {
         }
       >
         <div className="rounded-[30px] h-[250px] overflow-hidden">
-          <img className="w-auto h-full  object-cover" src={Alert1} alt="camera img" />
+          <img
+            className="w-auto h-full  object-cover"
+            src={Alert1}
+            alt="camera img"
+          />
         </div>
         <div className="flex flex-col gap-2 pb-2 border-b-[1px] border-[#E6E8EC]">
           <Typography
@@ -115,28 +122,29 @@ const Introduce = () => {
   );
 };
 const MainArea = () => {
+  const [deviceList, setDeviceList] = useState([])
+  const handleGetUserDeviceList = async () => {
+    try {
+      const response = await getUserDeviceList();
+      setDeviceList(response)
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    handleGetUserDeviceList();
+  }, []);
+
   return (
-    <div className="grid grid-cols-4 gap-8">
-      <DeviceNode
-        name="Device name"
-        location="136 Ho Tung Mau, Nam Tu Liem, Ha Noi"
-        status={1}
-      />
-      <DeviceNode
-        name="Device name"
-        location="136 Ho Tung Mau, Nam Tu Liem, Ha Noi"
-        status={0}
-      />
-      <DeviceNode
-        name="Device name"
-        location="136 Ho Tung Mau, Nam Tu Liem, Ha Noi"
-        status={2}
-      />
-      <DeviceNode
-        name="Device name"
-        location="136 Ho Tung Mau, Nam Tu Liem, Ha Noi"
-        status={1}
-      />
+    <div className="grid grid-cols-3 gap-8">
+      {deviceList.map((data, index) => (
+        <DeviceNode
+          name={data.name}
+          desc={data.desc}
+          key={"device node " + index}
+          location={data.location}
+          status={data.status}
+        />
+      ))}
     </div>
   );
 };

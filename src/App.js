@@ -29,7 +29,6 @@ const App = () => (
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
-
               <Route path="*" element={<p>There's nothing here!</p>} />
             </Route>
           </Routes>

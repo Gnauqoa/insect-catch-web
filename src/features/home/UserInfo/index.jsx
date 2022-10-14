@@ -1,8 +1,10 @@
 import { Avatar, IconButton, Typography } from "@mui/material";
 import React from "react";
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import { useSelector } from "react-redux";
 
 const Introduce = () => {
+  const userData = useSelector((state) => state.userData);
   return (
     <div className="flex flex-col gap-8 pb-16 items-center justify-center border-b-[1px] border-[#979CA5]">
       <Avatar
@@ -10,8 +12,9 @@ const Introduce = () => {
           width: "150px",
           height: "150px",
         }}
+        src={userData.avatar}
       />
-      <div className="flex flex-col gap-2 items-center justify-center">
+      <div className="flex flex-col text-center gap-2 items-center justify-center">
         <Typography
           sx={{
             fontSize: 36,
@@ -19,7 +22,7 @@ const Introduce = () => {
             color: "#121212",
           }}
         >
-          Gnauq
+          {userData.name}
         </Typography>
         <Typography
           sx={{
@@ -28,7 +31,7 @@ const Introduce = () => {
             color: "#979CA5",
           }}
         >
-          Farmer
+          {userData.job}
         </Typography>
       </div>
     </div>
@@ -55,7 +58,7 @@ const Reminders = () => {
           >
             <NotificationsOutlinedIcon
               sx={{
-                color: "#000000"
+                color: "#000000",
               }}
             />
           </IconButton>
