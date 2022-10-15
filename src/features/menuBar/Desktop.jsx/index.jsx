@@ -36,7 +36,7 @@ const LogOut = () => {
     <div className="mt-auto">
       <Link href="/auth/login">
         <Button
-          onClick={Logout()}
+          onClick={Logout}
           startIcon={<LogoutIcon />}
           sx={{
             color: "text_black.main",

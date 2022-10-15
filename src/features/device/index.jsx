@@ -5,17 +5,19 @@ import PlaceIcon from "@mui/icons-material/Place";
 import WifiOffIcon from "@mui/icons-material/WifiOff";
 import WifiIcon from "@mui/icons-material/Wifi";
 import CellWifiIcon from "@mui/icons-material/CellWifi";
-import { useDispatch, useSelector } from "react-redux";
 import { getUserDeviceList } from "../../api/device/getUserDeviceList";
-import { updateDeviceData } from "./reducer";
 
-const DeviceNode = ({ status, name, location }) => {
+const DeviceNode = ({ id, status, name, location }) => {
   return (
-    <Link href="/device/control" underline="none">
+    <Link href={`device/${id}`} underline="none">
       <div
         className={
-          "flex flex-col w-full gap-4 p-2 hover:transition-all border-[2px] border-transparent rounded-[24px] hover:border-[" +
-          (status === 1 ? "#2A9F47" : status === 0 ? "#E1251B" : "#FFAB00") +
+          "flex flex-col w-full items-center justify-center gap-4 p-2 hover:transition-all border-[2px] border-transparent rounded-[24px] " +
+          (status === 1
+            ? "hover:border-[#2A9F47]"
+            : status === 0
+            ? "hover:border-[#E1251B]"
+            : "hover:border-[#FFAB00]") +
           "]"
         }
       >
@@ -122,11 +124,11 @@ const Introduce = () => {
   );
 };
 const MainArea = () => {
-  const [deviceList, setDeviceList] = useState([])
+  const [deviceList, setDeviceList] = useState([]);
   const handleGetUserDeviceList = async () => {
     try {
       const response = await getUserDeviceList();
-      setDeviceList(response)
+      setDeviceList(response);
     } catch (err) {}
   };
 
@@ -135,9 +137,10 @@ const MainArea = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid xl:grid-cols-3 grid-cols-1 gap-8 items-center justify-center">
       {deviceList.map((data, index) => (
         <DeviceNode
+          id={data.id}
           name={data.name}
           desc={data.desc}
           key={"device node " + index}

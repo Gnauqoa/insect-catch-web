@@ -15,25 +15,24 @@ import DeviceControl from "./features/deviceControl";
 
 const App = () => (
   <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <div className="min-h-screen">
-          <Routes>
-            <Route path="/" element={<NormalLayout />}>
-              <Route index element={<Home />} />
-              <Route path="device">
-                <Route index element={<DevicePage />} />
-                <Route path="control" element={<DeviceControl />} />
-              </Route>
-              <Route path="*" element={<p>There's nothing here!</p>} />
-            </Route>
-            <Route path="/auth" element={<AuthLayout />}>
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="*" element={<p>There's nothing here!</p>} />
-            </Route>
-          </Routes>
-        </div>
-      </BrowserRouter>
+    <BrowserRouter>
+      <div className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<NormalLayout />}>
+            <Route index element={<Home />} />
+            <Route path="device" element={<DevicePage />} />
+            <Route path="device/:deviceID" element={<DeviceControl />} />
+
+            <Route path="*" element={<p>There's nothing here!</p>} />
+          </Route>
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="*" element={<p>There's nothing here!</p>} />
+          </Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   </ThemeProvider>
 );
 export default App;

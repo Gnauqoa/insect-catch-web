@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const deviceDataSlice = createSlice({
-  name: "currentUser",
+  name: "deviceListData",
   initialState: {
     deviceData: [
     

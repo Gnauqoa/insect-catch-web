@@ -3,10 +3,9 @@ import React, { useState } from "react";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import ClearIcon from "@mui/icons-material/Clear";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation   } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { MenuOption } from "../data";
-import { removeAccessToken } from "../../../localStorage";
 import { Logout } from "../../../api/auth/logout";
 
 const MenuPage = () => {
@@ -18,7 +17,6 @@ const MenuPage = () => {
           <Link underline="none" href={data.url} key={"menu option" + index}>
             <Button
               onClick={() => {
-                console.log(location);
               }}
               startIcon={data.icon}
               sx={{
@@ -78,7 +76,7 @@ const LogOut = () => {
     <div className="mt-auto">
       <Link href="/auth/login">
         <Button
-          onClick={Logout()}
+          onClick={Logout}
           startIcon={<LogoutIcon />}
           sx={{
             color: "text_black.main",

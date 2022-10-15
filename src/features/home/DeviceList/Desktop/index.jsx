@@ -24,7 +24,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
 }));
 
-const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
+const DeviceInfo = ({ id, imgUrl, name, desc, create, status, battery }) => {
   return (
     <TableRow>
       <StyledTableCell>
@@ -123,24 +123,26 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery }) => {
         </div>
       </StyledTableCell>
       <StyledTableCell align="right">
-        <Button
-          sx={{
-            color: "text_green.main",
-            textTransform: "none",
-          }}
-          endIcon={<DoubleArrowIcon />}
-        >
-          <Typography sx={{ color: "text_green.main", fontSize: 18 }}>
-            See more
-          </Typography>
-        </Button>
+        <Link href={`/device/${id}`}>
+          <Button
+            sx={{
+              color: "text_green.main",
+              textTransform: "none",
+            }}
+            endIcon={<DoubleArrowIcon />}
+          >
+            <Typography sx={{ color: "text_green.main", fontSize: 18 }}>
+              See more
+            </Typography>
+          </Button>
+        </Link>
       </StyledTableCell>
     </TableRow>
   );
 };
 
 const DeviceListDesktop = () => {
-  const deviceData = useSelector((state) => state.deviceData.deviceData)
+  const deviceData = useSelector((state) => state.deviceData.deviceData);
   const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
   return (
     <div className="xl:flex flex-col gap-6 w-full hidden">
@@ -207,6 +209,7 @@ const DeviceListDesktop = () => {
               create={data.create}
               battery={data.battery}
               status={data.status}
+              id={data.id}
             />
           ))}
         </TableBody>
