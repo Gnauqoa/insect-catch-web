@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { MenuOption } from "../data";
 import { removeAccessToken } from "../../../localStorage";
+import { Logout } from "../../../api/auth/logout";
 
 const MenuPage = () => {
   const location = useLocation();
@@ -73,24 +74,22 @@ const Introduce = ({ setOpen }) => {
   );
 };
 const LogOut = () => {
-  const navigate = useNavigate();
   return (
     <div className="mt-auto">
-      <Button
-        onClick={() => {
-          removeAccessToken();
-          navigate("/auth/login");
-        }}
-        startIcon={<LogoutIcon />}
-        sx={{
-          color: "text_black.main",
-          ":hover": {
-            color: "text_green.main",
-          },
-        }}
-      >
-        Logout
-      </Button>
+      <Link href="/auth/login">
+        <Button
+          onClick={Logout()}
+          startIcon={<LogoutIcon />}
+          sx={{
+            color: "text_black.main",
+            ":hover": {
+              color: "text_green.main",
+            },
+          }}
+        >
+          Logout
+        </Button>
+      </Link>
     </div>
   );
 };
