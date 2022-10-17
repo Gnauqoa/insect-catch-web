@@ -36,8 +36,8 @@ import { getDeviceControlData } from "../../api/device/getDeviceControlData";
 import { updateDeviceControlData } from "./reducer";
 import { useParams } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
-import { LoadingButton } from "@mui/lab";
 import { setDeviceControlData } from "../../api/device/setDeviceControlData";
+
 const Introduce = () => {
   const deviceControlData = useSelector((state) => state.deviceControlData);
   return (
@@ -69,15 +69,12 @@ const Introduce = () => {
     </div>
   );
 };
-
 const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
   const deviceControlData = useSelector((state) => state.deviceControlData);
-  const [brightness, setBrightness] = useState(0);
-  const [colorLed, setColorLed] = useState("#ffffff");
   const dispatch = useDispatch();
   const handleColorChange = (color) => {
     dispatch(
-      updateDeviceControlData({ ...deviceControlData, ledColor: color })
+      updateDeviceControlData({ ...deviceControlData, ledColor: "#ffffff" })
     );
   };
   const handleBrightnessChange = (e, value) => {
@@ -85,10 +82,6 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
       updateDeviceControlData({ ...deviceControlData, brightness: value })
     );
   };
-  useEffect(() => {
-    setColorLed(deviceControlData.ledColor);
-    setBrightness(deviceControlData.brightness);
-  }, [deviceControlData.ledColor, deviceControlData.brightness]);
   return (
     <div className="relative w-full ">
       <div className="flex flex-col gap-12 relative">
@@ -109,34 +102,6 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          {/* <div className="flex flex-col gap-1">
-        <Typography
-          sx={{
-            fontSize: 24,
-            fontWeight: 400,
-          }}
-        >
-          {Date().toLocaleString()}
-        </Typography>
-        <div className="flex flex-row gap-1">
-          <Typography
-            sx={{
-              fontSize: 24,
-              fontWeight: 400,
-            }}
-          >
-            Thursday |
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: 24,
-              fontWeight: 400,
-            }}
-          >
-            2:45 am
-          </Typography>
-        </div>
-      </div> */}
           <div className="flex flex-col gap-4">
             <div className="flex xl:flex-row flex-col gap-4">
               <div className="flex flex-row gap-2 item-center">
@@ -239,7 +204,10 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
             <Typography sx={{ fontSize: 20, fontWeight: 700 }}>
               Color led
             </Typography>
-            <MuiColorInput value={colorLed} onChange={handleColorChange} />
+            <MuiColorInput
+              value={deviceControlData.ledColor}
+              onChange={handleColorChange}
+            />
           </div>
           <div className="flex flex-col gap-2 select-none">
             <Typography sx={{ fontSize: 20, fontWeight: 700 }}>
@@ -247,9 +215,9 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
             </Typography>
             <div className="flex flex-row gap-4 items-center">
               <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                {brightness}%
+                {deviceControlData.brightness}%
               </Typography>
-              <Slider value={brightness} onChange={handleBrightnessChange} />
+              <Slider value={deviceControlData.brightness} onChange={handleBrightnessChange} />
             </div>
           </div>
         </div>
@@ -291,10 +259,12 @@ const LocationArea = () => {
         </div>
         <div className="overflow-hidden">
           <MapContainer
+            key={Math.random()}
             center={[
-              deviceControlData.coordinates.longitude,
+              deviceControlData.coordinates.longitude - 0.06,
               deviceControlData.coordinates.latitude,
             ]}
+            style={{ height: "100vh", width: "100wh" }}
             zoom={13}
             scrollWheelZoom={false}
           >
@@ -335,7 +305,6 @@ const DeviceControl = () => {
       { deviceControlData },
       params.deviceID
     );
-    console.log(res);
     setOnSaving(false);
   };
   useEffect(() => {

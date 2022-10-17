@@ -22,7 +22,6 @@ const App = () => (
             <Route index element={<Home />} />
             <Route path="device" element={<DevicePage />} />
             <Route path="device/:deviceID" element={<DeviceControl />} />
-
             <Route path="*" element={<p>There's nothing here!</p>} />
           </Route>
           <Route path="/auth" element={<AuthLayout />}>

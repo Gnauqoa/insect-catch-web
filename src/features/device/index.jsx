@@ -2,10 +2,9 @@ import { Link, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Alert1 from "./assets/alert1.png";
 import PlaceIcon from "@mui/icons-material/Place";
-import WifiOffIcon from "@mui/icons-material/WifiOff";
-import WifiIcon from "@mui/icons-material/Wifi";
-import CellWifiIcon from "@mui/icons-material/CellWifi";
 import { getUserDeviceList } from "../../api/device/getUserDeviceList";
+import FourGMobiledataIcon from "@mui/icons-material/FourGMobiledata";
+import SignalCellularOffIcon from "@mui/icons-material/SignalCellularOff";
 
 const DeviceNode = ({ id, status, name, location }) => {
   return (
@@ -13,12 +12,7 @@ const DeviceNode = ({ id, status, name, location }) => {
       <div
         className={
           "flex flex-col w-full items-center justify-center gap-4 p-2 hover:transition-all border-[2px] border-transparent rounded-[24px] " +
-          (status === 1
-            ? "hover:border-[#2A9F47]"
-            : status === 0
-            ? "hover:border-[#E1251B]"
-            : "hover:border-[#FFAB00]") +
-          "]"
+          (status ? "hover:border-[#2A9F47]" : "hover:border-[#E1251B]")
         }
       >
         <div className="rounded-[30px] h-[250px] overflow-hidden">
@@ -52,45 +46,25 @@ const DeviceNode = ({ id, status, name, location }) => {
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <Tooltip
-            title={
-              status === 1
-                ? "Connected by Wifi"
-                : status === 0
-                ? "Disconnected"
-                : "Connected by GPRS"
-            }
-          >
+          <Tooltip title={status ? "Connected by 4G" : "Disconnected"}>
             <div className="select-none flex flex-row items-center justify-center gap-2">
-              {status === 1 ? (
-                <WifiIcon
-                  sx={{
-                    color: "#2A9F47",
-                  }}
-                />
-              ) : status === 0 ? (
-                <WifiOffIcon
-                  sx={{
-                    color: "#E1251B",
-                  }}
+              {status ? (
+                <FourGMobiledataIcon
+                  sx={{ color: status ? "#2A9F47" : "#E1251B" }}
                 />
               ) : (
-                <CellWifiIcon />
+                <SignalCellularOffIcon
+                  sx={{ color: status ? "#2A9F47" : "#E1251B" }}
+                />
               )}
-
               <Typography
                 sx={{
                   fontWeight: 700,
                   fontSize: 18,
-                  color:
-                    status === 1 ? "#2A9F47" : status === 0 ? "#E1251B" : "",
+                  color: status ? "#2A9F47" : "#E1251B",
                 }}
               >
-                {status === 1
-                  ? "Connected by Wifi"
-                  : status === 0
-                  ? "Disconnected"
-                  : "Connected by GPRS"}
+                {status ? "Connected by 4G" : "Disconnected"}
               </Typography>
             </div>
           </Tooltip>

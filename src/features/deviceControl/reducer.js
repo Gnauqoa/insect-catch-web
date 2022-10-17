@@ -5,9 +5,11 @@ const deviceControlDataSlice = createSlice({
   initialState: {
     name: "",
     battery: 50,
+    brightness: 100,
+    colorLED: "#ffffff",
     coordinates: {
-      latitude: "",
-      longitude: ""
+      latitude: "0",
+      longitude: "0"
     }
   },
   reducers: {

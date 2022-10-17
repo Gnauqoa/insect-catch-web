@@ -15,10 +15,9 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import TableCell from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
-import WifiOffIcon from "@mui/icons-material/WifiOff";
-import WifiIcon from "@mui/icons-material/Wifi";
-import CellWifiIcon from "@mui/icons-material/CellWifi";
 import { useSelector } from "react-redux";
+import FourGMobiledataIcon from "@mui/icons-material/FourGMobiledata";
+import SignalCellularOffIcon from '@mui/icons-material/SignalCellularOff';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
@@ -68,23 +67,9 @@ const DeviceInfo = ({ id, imgUrl, name, desc, create, status, battery }) => {
         </Typography>
       </StyledTableCell>
       <StyledTableCell align="right">
-        <Tooltip
-          title={
-            status === 1
-              ? "Connected by Wifi"
-              : status === 0
-              ? "Disconnected"
-              : "Connected by GPRS"
-          }
-        >
+        <Tooltip title={status ? "Connected by 4G" : "Disconnected"}>
           <IconButton sx={{ color: "#000000" }}>
-            {status === 1 ? (
-              <WifiIcon />
-            ) : status === 0 ? (
-              <WifiOffIcon />
-            ) : (
-              <CellWifiIcon />
-            )}
+            {status ? <FourGMobiledataIcon /> : <SignalCellularOffIcon />}
           </IconButton>
         </Tooltip>
       </StyledTableCell>
