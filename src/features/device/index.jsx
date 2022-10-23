@@ -2,9 +2,10 @@ import { Link, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Alert1 from "./assets/alert1.png";
 import PlaceIcon from "@mui/icons-material/Place";
-import { getUserDeviceList } from "../../api/device/getUserDeviceList";
 import FourGMobiledataIcon from "@mui/icons-material/FourGMobiledata";
 import SignalCellularOffIcon from "@mui/icons-material/SignalCellularOff";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { getDeviceIdList } from "../../api/device/getDeviceIdList";
 
 const DeviceNode = ({ id, status, name, location }) => {
   return (
@@ -99,15 +100,19 @@ const Introduce = () => {
 };
 const MainArea = () => {
   const [deviceList, setDeviceList] = useState([]);
-  const handleGetUserDeviceList = async () => {
-    try {
-      const response = await getUserDeviceList();
-      setDeviceList(response);
-    } catch (err) {}
-  };
-
   useEffect(() => {
-    handleGetUserDeviceList();
+    const db = getDatabase();
+    const deviceListRef = ref(db, `device`);
+    return onValue(deviceListRef, async (snapshot) => {
+      const deviceIDList = await getDeviceIdList();
+      const dataUpdate = [];
+      snapshot.forEach((childSnapshot) => {
+        if (deviceIDList.includes(childSnapshot.key)) {
+          dataUpdate.push(childSnapshot.val());
+        }
+      });
+      setDeviceList(dataUpdate);
+    });
   }, []);
 
   return (

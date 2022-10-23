@@ -5,7 +5,6 @@ import {
   IconButton,
   Link,
   Slider,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -32,11 +31,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
-import { getDeviceControlData } from "../../api/device/getDeviceControlData";
 import { updateDeviceControlData } from "./reducer";
 import { useParams } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import { setDeviceControlData } from "../../api/device/setDeviceControlData";
+import { getDatabase, onValue, ref } from "firebase/database";
 
 const Introduce = () => {
   const deviceControlData = useSelector((state) => state.deviceControlData);
@@ -74,7 +73,7 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
   const dispatch = useDispatch();
   const handleColorChange = (color) => {
     dispatch(
-      updateDeviceControlData({ ...deviceControlData, ledColor: "#ffffff" })
+      updateDeviceControlData({ ...deviceControlData, ledColor: color })
     );
   };
   const handleBrightnessChange = (e, value) => {
@@ -217,7 +216,10 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
               <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
                 {deviceControlData.brightness}%
               </Typography>
-              <Slider value={deviceControlData.brightness} onChange={handleBrightnessChange} />
+              <Slider
+                value={deviceControlData.brightness}
+                onChange={handleBrightnessChange}
+              />
             </div>
           </div>
         </div>
@@ -292,23 +294,30 @@ const LocationArea = () => {
 const DeviceControl = () => {
   const [onSaving, setOnSaving] = useState(false);
   const deviceControlData = useSelector((state) => state.deviceControlData);
-
   const params = useParams();
   const dispatch = useDispatch();
-  const handleGetDeviceControlData = async () => {
-    const response = await getDeviceControlData(params.deviceID);
-    dispatch(updateDeviceControlData(response));
-  };
   const handleSave = async () => {
-    setOnSaving(true);
-    const res = await setDeviceControlData(
-      { deviceControlData },
-      params.deviceID
-    );
-    setOnSaving(false);
+    try {
+      setOnSaving(true);
+      const res = await setDeviceControlData(
+        { deviceControlData },
+        params.deviceID
+      );
+      console.log(res);
+      setOnSaving(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
-    handleGetDeviceControlData();
+    const db = getDatabase();
+    const deviceDataRef = ref(db, `device/${params.deviceID}`);
+    return onValue(deviceDataRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data)
+      data.ledColor = data.ledColor.replace("0x", "#");
+      dispatch(updateDeviceControlData(data));
+    });
   }, []);
   return (
     <div className="xl:h-screen">

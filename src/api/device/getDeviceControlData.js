@@ -1,6 +1,8 @@
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
+
+// not use this function, now use realtime db 
 export const getDeviceControlData = async (deviceID) => {
   try {
     const docRef = doc(db, "device", deviceID);

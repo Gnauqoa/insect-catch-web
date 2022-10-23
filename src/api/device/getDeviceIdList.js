@@ -12,8 +12,6 @@ export const getDeviceIdList = async () => {
       docSnap.data().deviceList.forEach((d) => {
         data.push(d);
       });
-      console.log(data);
-
       return data;
     } else {
       console.log({ error: "can't found user data" });

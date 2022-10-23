@@ -17,13 +17,21 @@ import { styled } from "@mui/material/styles";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import { useSelector } from "react-redux";
 import FourGMobiledataIcon from "@mui/icons-material/FourGMobiledata";
-import SignalCellularOffIcon from '@mui/icons-material/SignalCellularOff';
+import SignalCellularOffIcon from "@mui/icons-material/SignalCellularOff";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "none",
 }));
 
-const DeviceInfo = ({ id, imgUrl, name, desc, create, status, battery }) => {
+const DeviceInfo = ({
+  id,
+  imgUrl,
+  name,
+  desc,
+  lastUpdate,
+  status,
+  battery,
+}) => {
   return (
     <TableRow>
       <StyledTableCell>
@@ -63,12 +71,12 @@ const DeviceInfo = ({ id, imgUrl, name, desc, create, status, battery }) => {
             color: "#121212",
           }}
         >
-          {create}
+          {lastUpdate}
         </Typography>
       </StyledTableCell>
       <StyledTableCell align="right">
         <Tooltip title={status ? "Connected by 4G" : "Disconnected"}>
-          <IconButton sx={{ color: "#000000" }}>
+          <IconButton sx={{ color: status ? "#2A9F47" : "#E1251B" }}>
             {status ? <FourGMobiledataIcon /> : <SignalCellularOffIcon />}
           </IconButton>
         </Tooltip>
@@ -128,7 +136,13 @@ const DeviceInfo = ({ id, imgUrl, name, desc, create, status, battery }) => {
 
 const DeviceListDesktop = () => {
   const deviceData = useSelector((state) => state.deviceData.deviceData);
-  const InfoDeviceShow = ["Name", "Create", "Status", "Battery", "Details"];
+  const InfoDeviceShow = [
+    "Name",
+    "Last update",
+    "Status",
+    "Battery",
+    "Details",
+  ];
   return (
     <div className="xl:flex flex-col gap-6 w-full hidden">
       <div className="flex flex-row">
@@ -191,7 +205,7 @@ const DeviceListDesktop = () => {
               imgUrl={data.imgUrl}
               name={data.name}
               desc={data.desc}
-              create={data.create}
+              lastUpdate={data.timeUpdate}
               battery={data.battery}
               status={data.status}
               id={data.id}

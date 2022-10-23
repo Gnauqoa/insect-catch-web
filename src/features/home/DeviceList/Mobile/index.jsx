@@ -13,10 +13,23 @@ import SignalCellularOffIcon from "@mui/icons-material/SignalCellularOff";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useSelector } from "react-redux";
 
-const DeviceInfo = ({ imgUrl, name, desc, create, status, battery, id }) => {
+const DeviceInfo = ({
+  imgUrl,
+  name,
+  desc,
+  lastUpdate,
+  status,
+  battery,
+  id,
+}) => {
   return (
     <Link href={`/device/${id}`} underline="none" color="none">
-      <div className="flex flex-col w-full gap-4 border-[1px] rounded-[20px] border-[#000000] p-[25px] pt-[15px] pb-[15px]">
+      <div
+        className={
+          "flex flex-col w-full gap-4 border-[2px] rounded-[20px] p-[25px] pt-[15px] pb-[15px] " +
+          (status ? "border-[#2A9F47]" : "border-[#E1251B]")
+        }
+      >
         <div className="grid grid-cols-4 w-full items-center justify-between">
           <img className="w-[70px]" src={imgUrl} />
           <div className="flex flex-col justify-center">
@@ -46,11 +59,11 @@ const DeviceInfo = ({ imgUrl, name, desc, create, status, battery, id }) => {
               color: "#121212",
             }}
           >
-            {create}
+            {lastUpdate}
           </Typography>
           <div className="flex flex-col items-center ml-auto">
             <Tooltip title={status ? "Connected by 4G" : "Disconnected"}>
-              <IconButton sx={{ color: "#000000" }}>
+              <IconButton sx={{ color: status ? "#2A9F47" : "#E1251B" }}>
                 {status ? <FourGMobiledataIcon /> : <SignalCellularOffIcon />}
               </IconButton>
             </Tooltip>
@@ -146,7 +159,7 @@ const DeviceListMobile = () => {
           imgUrl={data.imgUrl}
           name={data.name}
           desc={data.desc}
-          create={data.create}
+          lastUpdate={data.timeUpdate}
           battery={data.battery}
           status={data.status}
           id={data.id}

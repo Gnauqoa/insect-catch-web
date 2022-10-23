@@ -25,7 +25,6 @@ const Logo = () => {
 const AuthLayout = () => {
   const snackBar = useSelector((state) => state.snackBar);
   const dispatch = useDispatch();
-
   const handleSetnackBar = (status) => {
     dispatch(setSnackBar({ ...snackBar, open: status }));
   };

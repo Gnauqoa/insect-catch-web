@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -15,6 +15,8 @@ const firebaseConfig = {
   messagingSenderId: "193856506025",
   appId: "1:193856506025:web:5520a1d7b12b81383901b8",
   measurementId: "G-4LR8DR497H",
+  databaseURL:
+    "https://insect-catch-electric-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
 // Initialize Firebase
