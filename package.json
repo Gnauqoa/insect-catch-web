@@ -9,7 +9,7 @@
     "@mui/lab": "^5.0.0-alpha.96",
     "@mui/material": "^5.10.7",
     "@mui/system": "^5.10.7",
-    "@mui/x-date-pickers": "^5.0.0",
+    "@mui/x-date-pickers": "^5.0.5",
     "@reduxjs/toolkit": "^1.8.4",
     "@splidejs/react-splide": "^0.7.8",
     "@splidejs/splide": "^4.0.15",

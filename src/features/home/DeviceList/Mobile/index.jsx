@@ -6,12 +6,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import FourGMobiledataIcon from "@mui/icons-material/FourGMobiledata";
 import SignalCellularOffIcon from "@mui/icons-material/SignalCellularOff";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { requestNewDeviceData } from "../../../../api/device/requestNewData";
+import CachedIcon from "@mui/icons-material/Cached";
 
 const DeviceInfo = ({
   imgUrl,
@@ -122,6 +125,13 @@ const DeviceInfo = ({
 
 const DeviceListMobile = () => {
   const deviceData = useSelector((state) => state.deviceData.deviceData);
+  const [isReq, setIsReq] = useState(false);
+  const params = useParams();
+  const handleReqNewData = async () => {
+    setIsReq(true);
+    const res = await requestNewDeviceData(params.deviceID);
+    setIsReq(false);
+  };
   return (
     <div className="flex flex-col gap-8 w-full">
       <div className="flex flex-row">
@@ -152,6 +162,26 @@ const DeviceListMobile = () => {
             </Typography>
           </Button>
         </div>
+        <Tooltip title="Load new data & img">
+          <div
+            className={
+              "flex flex-col ml-auto " + (isReq ? " animate-spin" : "")
+            }
+          >
+            <IconButton
+              disabled={isReq}
+              size="large"
+              sx={{
+                marginLeft: "auto",
+                alignItems: "center",
+                justifyItems: "center",
+              }}
+              onClick={handleReqNewData}
+            >
+              <CachedIcon />
+            </IconButton>
+          </div>
+        </Tooltip>
       </div>
       {deviceData.slice(0, 3).map((data, index) => (
         <DeviceInfo

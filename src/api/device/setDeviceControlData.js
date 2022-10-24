@@ -8,9 +8,12 @@ export const setDeviceControlData = (dataUpdate, deviceID) => {
       "0x"
     ),
     brightness: dataUpdate.deviceControlData.brightness,
+    timeSend: dataUpdate.deviceControlData.timeSend,
+    timeEnd: dataUpdate.deviceControlData.timeEnd,
+    timeStart: dataUpdate.deviceControlData.timeStart,
   });
   return axios
-    .post(`/userUpdateDevice`, datasend, {
+    .post(`/userUpdateDeviceData`, datasend, {
       headers: {
         "Content-Type": "application/json",
       },

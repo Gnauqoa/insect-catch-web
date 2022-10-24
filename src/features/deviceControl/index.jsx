@@ -5,6 +5,8 @@ import {
   IconButton,
   Link,
   Slider,
+  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -36,9 +38,20 @@ import { useParams } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import { setDeviceControlData } from "../../api/device/setDeviceControlData";
 import { getDatabase, onValue, ref } from "firebase/database";
+import CachedIcon from "@mui/icons-material/Cached";
+import { requestNewDeviceData } from "../../api/device/requestNewData";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
+import dayjs from "dayjs";
 
 const Introduce = () => {
   const deviceControlData = useSelector((state) => state.deviceControlData);
+  const [isReq, setIsReq] = useState(false);
+  const params = useParams();
+  const handleReqNewData = async () => {
+    setIsReq(true);
+    const res = await requestNewDeviceData(params.deviceID);
+    setIsReq(false);
+  };
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row items-center gap-4">
@@ -55,22 +68,57 @@ const Introduce = () => {
         >
           {deviceControlData.name}
         </Typography>
+        <Tooltip title="Load new data & img">
+          <div
+            className={
+              "flex flex-col ml-auto " + (isReq ? " animate-spin" : "")
+            }
+          >
+            <IconButton
+              disabled={isReq}
+              size="large"
+              sx={{
+                marginLeft: "auto",
+                alignItems: "center",
+                justifyItems: "center",
+              }}
+              onClick={handleReqNewData}
+            >
+              <CachedIcon />
+            </IconButton>
+          </div>
+        </Tooltip>
       </div>
       <Typography
         sx={{
           fontWeight: 400,
           fontSize: 16,
-          color: "#979CA5",
+          color: deviceControlData.status ? "#2A9F47" : "#E1251B",
         }}
       >
-        Hmmm, your device seem work very good!
+        {deviceControlData.status
+          ? "Your device is online"
+          : "Your device is offline"}
       </Typography>
     </div>
   );
 };
-const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
+const MainArea = ({ isCharging = 0, weather = 1 }) => {
+  const [start, setStart] = useState(dayjs("2018-01-01T00:00:00.000Z"));
+  const [end, setEnd] = useState(dayjs("2018-01-01T00:00:00.000Z"));
   const deviceControlData = useSelector((state) => state.deviceControlData);
   const dispatch = useDispatch();
+  useEffect(() => {
+    const timeStart = new Date();
+    timeStart.setMinutes(deviceControlData.timeStart.min);
+    timeStart.setHours(deviceControlData.timeStart.hour);
+    setStart(timeStart);
+
+    const timeEnd = new Date();
+    timeEnd.setMinutes(deviceControlData.timeEnd.min);
+    timeEnd.setHours(deviceControlData.timeEnd.hour);
+    setEnd(timeEnd);
+  }, [deviceControlData]);
   const handleColorChange = (color) => {
     dispatch(
       updateDeviceControlData({ ...deviceControlData, ledColor: color })
@@ -79,6 +127,32 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
   const handleBrightnessChange = (e, value) => {
     dispatch(
       updateDeviceControlData({ ...deviceControlData, brightness: value })
+    );
+  };
+  const handleStartTimeChange = (value) => {
+    setStart(value);
+    dispatch(
+      updateDeviceControlData({
+        ...deviceControlData,
+        timeStart: { hour: value.hour(), min: value.minute() },
+      })
+    );
+  };
+  const handleEndTimeChange = (value) => {
+    setEnd(value);
+    dispatch(
+      updateDeviceControlData({
+        ...deviceControlData,
+        timeEnd: { hour: value.hour(), min: value.minute() },
+      })
+    );
+  };
+  const handleSendTimeChange = (e) => {
+    dispatch(
+      updateDeviceControlData({
+        ...deviceControlData,
+        timeSend: e.currentTarget.value,
+      })
     );
   };
   return (
@@ -119,7 +193,11 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
               <div className="flex flex-row gap-2">
                 <img src={Rain} />
                 <Typography>Rain: </Typography>
-                <Typography>{rain}%</Typography>
+                <Typography>
+                  {deviceControlData.rain
+                    ? "Is ranning"
+                    : deviceControlData.rain + "%"}
+                </Typography>
               </div>
               <div className="xl:flex hidden w-[2px] h-[full] bg-[#000000]" />
               <div className="flex flex-row gap-2">
@@ -223,6 +301,51 @@ const MainArea = ({ isCharging = 0, rain = 0.2, weather = 1 }) => {
             </div>
           </div>
         </div>
+        <div className="flex flex-col gap-4">
+          <Typography
+            sx={{
+              fontSize: 20,
+              fontWeight: 700,
+            }}
+          >
+            Time turn on electric grid
+          </Typography>
+          <div className="flex flex-row gap-2 items-center justify-center">
+            <DesktopTimePicker
+              label="From"
+              value={start}
+              onChange={(value) => handleStartTimeChange(value)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <DesktopTimePicker
+              label="To"
+              value={end}
+              onChange={(value) => handleEndTimeChange(value)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <Typography
+            sx={{
+              fontSize: 20,
+              fontWeight: 700,
+            }}
+          >
+            Time send sensor data
+          </Typography>
+          <TextField
+            value={deviceControlData.timeSend}
+            onChange={handleSendTimeChange}
+            onKeyPress={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+            label={"Every minute"}
+            type="number"
+          />
+        </div>
       </div>
     </div>
   );
@@ -280,9 +403,7 @@ const LocationArea = () => {
                 deviceControlData.coordinates.latitude,
               ]}
             >
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
+              <Popup>Your device</Popup>
             </Marker>
           </MapContainer>
         </div>
@@ -314,7 +435,7 @@ const DeviceControl = () => {
     const deviceDataRef = ref(db, `device/${params.deviceID}`);
     return onValue(deviceDataRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data)
+      console.log(data);
       data.ledColor = data.ledColor.replace("0x", "#");
       dispatch(updateDeviceControlData(data));
     });
