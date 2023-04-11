@@ -8,6 +8,7 @@ import Home from "./features/home";
 import NormalLayout from "./layout/normal";
 import AuthLayout from "./layout/auth";
 
+
 import Login from "./features/auth/login";
 import Register from "./features/auth/register";
 import DevicePage from "./features/device";
