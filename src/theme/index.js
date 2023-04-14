@@ -16,11 +16,20 @@ const theme = createTheme({
       main: "F3C2DA",
     },
     primary: {
-      main: "#FFAB00",
+      main: "#fbb326",
+      50: "#fff2db",
+      100: "#fedea5",
+      200: "#fdc969",
+      300: "#fbb326",
+      400: "#f9a300",
     },
     secondary: {
-      main: "#FFE8F3",
-      contrastText: "#D63384",
+      main: "#056838",
+      50: "#e7f7ed",
+      100: "#c5ead3",
+      200: "#9fddb8",
+      300: "#76d19b",
+      400: "#55c686",
     },
     text_neutral: {
       main: "#777E91",
@@ -64,13 +73,13 @@ const theme = createTheme({
           props: { variant: "primary filled" },
           style: {
             color: "#FFFFFF",
-            background: "#FFAB00",
+            background: "#fbb326",
             ":hover": {
-              background: "#CC8900",
+              background: "#f9a300",
             },
             ":focus": {
-              background: "#FFAB00",
-              borderColor: "#FFDD96",
+              background: "#f9a300",
+              borderColor: "#fff2db",
             },
             ":disabled": {
               color: "#ffffff",

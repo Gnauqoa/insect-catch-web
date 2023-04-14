@@ -66,7 +66,14 @@ module.exports = {
       colors: {
         textFieldHoverShadow: "#FFF1F8",
         textFieldFocusShadow: "F3C2DA",
-        primary: "#D63384",
+        primary: {
+          main: "#f9a300",
+          50: "#fff2db",
+          100: "#fedea5",
+          200: "#fdc969",
+          300: "#fbb326",
+          400: "#f9a300",
+        },
         borderNeutral: "#E6E8EC",
         borderSignInField: "#92929D",
       },
