@@ -12,7 +12,6 @@ const AUTHENTICATION_URLS = {
 };
 
 export const login = (payload) => {
-  console.log(payload);
   return axiosForInsertCatchAPI
     .request({
       method: "post",

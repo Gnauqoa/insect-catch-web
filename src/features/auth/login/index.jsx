@@ -4,7 +4,7 @@ import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
 import { ReactComponent as IconSms } from "assets/icon/icon_sms.svg";
 import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosForInsertCatchAPI } from "services/axios";
 import { saveAccessToken } from "services/localStorage";
 import useToggleHook from "hooks/toggleHook";
@@ -17,6 +17,7 @@ const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggleHook(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setLoginForm({
       ...loginForm,
@@ -27,12 +28,13 @@ const Login = () => {
     onLoading();
     login({ email: loginForm.email, password: loginForm.password })
       .then((res) => {
-        console.log(res.data.data);
         dispatch(storeUser(res.data.data));
         toast.success("Login success!");
+        navigate("/");
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.log(err.response);
+        toast.error(err.response.data.message);
       })
       .finally((data) => {
         onLoaded();
