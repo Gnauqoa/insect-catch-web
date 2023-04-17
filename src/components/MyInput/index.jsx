@@ -11,6 +11,9 @@ const MyInput = ({
   error = false,
   type = "",
   onChange,
+  sx,
+  value,
+  ...props
 }) => {
   const [invisible, setInvisible] = useState(false);
   useEffect(() => {
@@ -79,6 +82,7 @@ const MyInput = ({
             <></>
           )
         }
+        {...props}
       />
     </div>
   );

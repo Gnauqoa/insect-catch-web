@@ -12,6 +12,7 @@ const AUTHENTICATION_URLS = {
 };
 
 export const login = (payload) => {
+  console.log(payload);
   return axiosForInsertCatchAPI
     .request({
       method: "post",
@@ -21,10 +22,10 @@ export const login = (payload) => {
     .then((response) => {
       axiosForInsertCatchAPI.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${response.data.access_token}`;
-      saveRefreshToken(response.data.refresh_token);
-      saveAccessToken(response.data.access_token);
-      getCurrentUser();
+      ] = `Bearer ${response.data.data.access_token}`;
+      saveRefreshToken(response.data.data.refresh_token);
+      saveAccessToken(response.data.data.access_token);
+      return getCurrentUser();
     });
 };
 export const logout = () => {

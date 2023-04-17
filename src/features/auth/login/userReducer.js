@@ -13,9 +13,8 @@ const currentUserSlice = createSlice({
 
 const { actions, reducer } = currentUserSlice;
 
-export const isLoggedInSelector = (state) =>
-  !!get("currentUser.id", state);
+export const isLoggedInSelector = (state) => !!get("currentUser.id", state);
 
-export const { store } = actions;
+export const storeUser = actions.store;
 
 export default reducer;

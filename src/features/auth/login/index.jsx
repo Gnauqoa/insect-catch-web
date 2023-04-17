@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import CeecLogo from "assets/logo/ceec_logo.png";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
 import { ReactComponent as IconSms } from "assets/icon/icon_sms.svg";
 import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
 import { Link } from "react-router-dom";
+import { axiosForInsertCatchAPI } from "services/axios";
+import { saveAccessToken } from "services/localStorage";
+import useToggleHook from "hooks/toggleHook";
+import { login } from "services/auth";
+import { useDispatch } from "react-redux";
+import { storeUser } from "./userReducer";
+
 const Login = () => {
+  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [loading, toogleLoading, onLoading, onLoaded] = useToggleHook(false);
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    setLoginForm({
+      ...loginForm,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+  const handleLogin = () => {
+    onLoading();
+    login({ email: loginForm.email, password: loginForm.password })
+      .then((res) => {
+        dispatch(storeUser(res.data.data));
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      })
+      .finally((data) => {
+        onLoaded();
+      });
+  };
   return (
     <div className="flex flex-col pt-6 w-full">
       <div className="flex flex-col w-full items-center">
@@ -28,8 +57,21 @@ const Login = () => {
       </div>
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col pt-4 gap-3 w-[30%]">
-          <MyInput label="Email" startIcon={IconSms} />
-          <MyInput label="Password" type="password" startIcon={IconLock} />
+          <MyInput
+            value={loginForm.email}
+            onChange={handleChange}
+            name="email"
+            label="Email"
+            startIcon={IconSms}
+          />
+          <MyInput
+            value={loginForm.password}
+            onChange={handleChange}
+            name="password"
+            label="Password"
+            type="password"
+            startIcon={IconLock}
+          />
         </div>
         <div className="flex flex-row py-6 w-[30%] items-center">
           <div className="ml-auto">
@@ -42,12 +84,18 @@ const Login = () => {
         </div>
         <div className="flex flex-col items-center w-[30%]">
           <Button
+            disabled={loading}
             variant="primary filled"
             sx={{ borderRadius: "90px", width: "100%" }}
+            onClick={handleLogin}
           >
-            <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-              Login
-            </Typography>
+            {loading ? (
+              <CircularProgress size={24} sx={{ color: "#fff" }} />
+            ) : (
+              <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+                Login
+              </Typography>
+            )}
           </Button>
           <Typography
             sx={{
