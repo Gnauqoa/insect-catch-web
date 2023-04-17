@@ -11,6 +11,7 @@ import useToggleHook from "hooks/toggleHook";
 import { login } from "services/auth";
 import { useDispatch } from "react-redux";
 import { storeUser } from "./userReducer";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
@@ -26,7 +27,9 @@ const Login = () => {
     onLoading();
     login({ email: loginForm.email, password: loginForm.password })
       .then((res) => {
+        console.log(res.data.data);
         dispatch(storeUser(res.data.data));
+        toast.success("Login success!");
       })
       .catch((err) => {
         console.log(err.response.data.message);
