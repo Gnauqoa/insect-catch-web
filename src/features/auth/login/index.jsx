@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CeecLogo from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -7,15 +7,18 @@ import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosForInsertCatchAPI } from "services/axios";
 import { saveAccessToken } from "services/localStorage";
-import useToggleHook from "hooks/toggleHook";
+import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
 import { useDispatch } from "react-redux";
 import { storeUser } from "./userReducer";
 import { toast } from "react-toastify";
+import MyCheckBox from "components/MyCheckBox";
+import useRemember from "hooks/useRemember";
 
 const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [loading, toogleLoading, onLoading, onLoaded] = useToggleHook(false);
+  const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
+  const [remember, toggleRemember] = useRemember();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -79,6 +82,11 @@ const Login = () => {
           />
         </div>
         <div className="flex flex-row py-6 w-[30%] items-center">
+          <MyCheckBox
+            value={remember}
+            onChange={toggleRemember}
+            label="Remember me"
+          />
           <div className="ml-auto">
             <Link>
               <Typography sx={{ color: "primary.main" }}>

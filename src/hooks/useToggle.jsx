@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useToggleHook = (defaultValue = false) => {
+const useToggle = (defaultValue = false) => {
   const [flag, setFlag] = useState(defaultValue);
   const toggle = () => {
     setFlag(!flag);
@@ -14,4 +14,4 @@ const useToggleHook = (defaultValue = false) => {
   return [flag, toggle, turnOn, turnOff];
 };
 
-export default useToggleHook;
+export default useToggle;

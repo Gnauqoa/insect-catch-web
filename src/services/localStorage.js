@@ -38,7 +38,8 @@ export const removeAccessToken = () =>
 
 export const setRememberMe = (value) =>
   localStorage.setItem(REMEMBER_ME_NAME, value);
-export const getRememberMe = () => !!localStorage.getItem(REMEMBER_ME_NAME);
+export const getRememberMe = () =>
+  localStorage.getItem(REMEMBER_ME_NAME) === "true" ? true : false;
 export const removeRememberMe = () => localStorage.removeItem(REMEMBER_ME_NAME);
 
 export const clearTokens = () => {
