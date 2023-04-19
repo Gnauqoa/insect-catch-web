@@ -1,25 +1,79 @@
 import React, { useState } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, CircularProgress } from "@mui/material";
 import MyInput from "components/MyInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import getErrorMessage from "services/validate";
+import { register } from "services/auth";
+import { toast } from "react-toastify";
+import useToggle from "hooks/useToggle";
+import dayjs from "dayjs";
 
 const Register = () => {
-  const [registerForm, setRegisterForm] = useState({
+  const [formValue, setFormValue] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
     birth: "",
   });
+  const [errorMessage, setErrorMessage] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    birth: "",
+  });
+  const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
+  const navigate = useNavigate();
+  const handleComplete = (e) => {
+    const { name, value } = e.currentTarget;
+    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
+  };
   const handleChange = (e) => {
-    setRegisterForm({
-      ...registerForm,
-      [e.currentTarget.name]: e.currentTarget.value,
+    const { name, value } = e.currentTarget;
+    setFormValue({
+      ...formValue,
+      [name]: value,
     });
+    if (isError(name))
+      setErrorMessage({
+        ...errorMessage,
+        [name]: getErrorMessage(name, value),
+      });
+  };
+  const isError = (name) => {
+    return errorMessage[name].length;
+  };
+  const isDisable = () => {
+    return (
+      errorMessage.first_name.length ||
+      errorMessage.last_name.length ||
+      errorMessage.email.length ||
+      errorMessage.password.length ||
+      !formValue.email.length ||
+      !formValue.password.length ||
+      !formValue.first_name.length ||
+      !formValue.last_name.length ||
+      !formValue.birth.length
+    );
   };
   const handleBirthChange = (e) => {
-    setRegisterForm({ ...registerForm, birth: e.target.value });
+    setFormValue({ ...formValue, birth: e.target.value });
+  };
+  const handleRegister = () => {
+    onLoading();
+    register({ ...formValue, birth: dayjs(formValue.birth).toDate() })
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Sign up success!");
+        setTimeout(() => navigate("/auth/login"), 3000);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        toast.error(err.response.data.message);
+        onLoaded();
+      })
   };
   return (
     <div className="flex flex-col w-full pb-8">
@@ -52,13 +106,15 @@ const Register = () => {
             </Typography>
             <div className="flex flex-row gap-4 items-center w-full">
               <MyInput
-                value={registerForm.first_name}
+                onBlur={handleComplete}
+                value={formValue.first_name}
                 onChange={handleChange}
                 name="first_name"
                 placeholder="First name"
               />
               <MyInput
-                value={registerForm.last_name}
+                onBlur={handleComplete}
+                value={formValue.last_name}
                 onChange={handleChange}
                 name="last_name"
                 placeholder="Last name"
@@ -66,14 +122,16 @@ const Register = () => {
             </div>
           </div>
           <MyInput
-            value={registerForm.email}
+            onBlur={handleComplete}
+            value={formValue.email}
             onChange={handleChange}
             name="email"
             placeholder="Email"
             label="Email"
           />
           <MyInput
-            value={registerForm.password}
+            onBlur={handleComplete}
+            value={formValue.password}
             onChange={handleChange}
             name="password"
             placeholder="***********"
@@ -81,7 +139,7 @@ const Register = () => {
             type="password"
           />
           <MyInput
-            value={registerForm.birth}
+            value={formValue.birth}
             onChange={handleBirthChange}
             name="birth"
             placeholder="08/10/2003"
@@ -113,12 +171,27 @@ const Register = () => {
             </Typography>
           </div>
           <Button
+            onClick={handleRegister}
+            disabled={loading || !!isDisable()}
             variant="primary filled"
             sx={{ width: "100%", borderRadius: "90px", marginTop: "8px" }}
           >
-            Create account
+            {loading ? (
+              <CircularProgress size={24} sx={{ color: "#fff" }} />
+            ) : (
+              <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+                Create account
+              </Typography>
+            )}
           </Button>
-          <Typography sx={{ fontSize: 14, fontWeight: 400, color: "#5C5668", textAlign: "center" }}>
+          <Typography
+            sx={{
+              fontSize: 14,
+              fontWeight: 400,
+              color: "#5C5668",
+              textAlign: "center",
+            }}
+          >
             Already have an account?{" "}
             <Link to="/auth/login">
               <span className="text-primary-main">Login</span>

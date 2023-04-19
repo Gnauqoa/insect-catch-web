@@ -14,6 +14,8 @@ const getErrorMessage = (name, value) => {
     })
       ? ""
       : "Password length must be longer than 8, have 1 uppercase, 1 lowercase and 1 number";
+  if (name === "first_name" || name === "last_name")
+    return value.length ? "" : "First name can't be empty";
   return "";
 };
 

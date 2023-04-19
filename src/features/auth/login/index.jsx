@@ -34,6 +34,10 @@ const Login = () => {
         [name]: getErrorMessage(name, value),
       });
   };
+  const handleComplete = (e) => {
+    const { name, value } = e.currentTarget;
+    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
+  };
   const isError = (name) => {
     return errorMessage[name].length;
   };
@@ -45,10 +49,7 @@ const Login = () => {
       !formValue.password.length
     );
   };
-  const handleComplete = (e) => {
-    const { name, value } = e.currentTarget;
-    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
-  };
+
   const handleLogin = () => {
     onLoading();
     login({ email: formValue.email, password: formValue.password })
