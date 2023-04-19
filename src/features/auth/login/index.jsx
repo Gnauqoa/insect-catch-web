@@ -51,6 +51,7 @@ const Login = () => {
         <CircularProgress />
       </div>
     );
+  if (loginStatus.isLogin) return <></>;
   return (
     <div className="flex flex-col pt-6 w-full">
       <div className="flex flex-col w-full items-center">
