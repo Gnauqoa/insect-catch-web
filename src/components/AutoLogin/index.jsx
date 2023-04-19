@@ -1,6 +1,6 @@
 import { setLoginStatus } from "features/auth/login/loginStatusReducer";
 import { storeUser } from "features/auth/login/userReducer";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAccessTokenFromRefreshToken,
@@ -22,6 +22,7 @@ const AutoLogin = () => {
     if (!isChecking) return;
     isChecking = false;
     console.log("auto login");
+    console.log(getAccessToken(), getRefreshToken());
     if (validateToken(getRefreshToken())) {
       if (!validateToken(getAccessToken())) {
         console.log("get new access_token");
@@ -57,7 +58,7 @@ const AutoLogin = () => {
     console.log("login failed");
     clearTokens();
     dispatch(setLoginStatus({ isLogin, isChecking }));
-  }, [loginStatus.isChecking]);
+  }, [loginStatus]);
 };
 
 export default AutoLogin;

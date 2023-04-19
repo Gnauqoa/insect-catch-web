@@ -20,19 +20,26 @@ const MyInput = ({
     if (type === "password") setInvisible(true);
   }, []);
   return (
-    <div className="flex flex-col gap-2">
-      <Typography sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}>
-        {label}
-      </Typography>
+    <div className="flex flex-col gap-2 w-full">
+      {label ? (
+        <Typography sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}>
+          {label}
+        </Typography>
+      ) : (
+        <></>
+      )}
+
       <Input
+        defaultValue={value}
         autoComplete={"none"}
         disabled={disabled}
         onChange={onChange}
-        type={invisible ? "password" : ""}
+        type={invisible ? "password" : type}
         sx={{
+          width: "100%",
           border: "2px solid #DEDDE1",
           borderRadius: "12px",
-          padding: "12px 16px",
+          padding: "8px 16px",
           ":hover ": {
             boxShadow: !disabled && "0px 0px 5px 5px #fff2db",
           },

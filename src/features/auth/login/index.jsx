@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -7,7 +7,7 @@ import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
 import { Link, useNavigate } from "react-router-dom";
 import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { storeUser } from "./userReducer";
 import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
@@ -44,7 +44,7 @@ const Login = () => {
       });
   };
   return (
-    <div className="flex flex-col pt-6 w-full">
+    <div className="flex flex-col w-full">
       <div className="flex flex-col w-full items-center">
         <img
           alt="logo"
@@ -58,6 +58,7 @@ const Login = () => {
             fontSize: 40,
             fontWeight: 700,
             color: "#121115",
+            fontFamily: "DM Sans",
           }}
         >
           Welcome back
@@ -119,7 +120,7 @@ const Login = () => {
             }}
           >
             Don't have an account ?{" "}
-            <Link>
+            <Link to="/auth/register">
               <span className="text-primary-main">Sign up for free</span>
             </Link>
           </Typography>
