@@ -1,3 +1,4 @@
-import HomePage from "./pages/Home";
+import HomePage from "./features/Home";
+import LoginPage from "features/auth/login";
 
-export { HomePage };
+export { HomePage, LoginPage };
