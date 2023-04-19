@@ -32,6 +32,7 @@ const AutoLogin = () => {
           })
           .catch((err) => {
             console.log("clear");
+            isLogin = false;
             clearTokens();
           })
           .finally(() => dispatch(setLoginStatus({ isLogin, isChecking })));
@@ -41,10 +42,13 @@ const AutoLogin = () => {
       axiosForInsertCatchAPI.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${getAccessToken()}`;
-      isLogin = true;
       getCurrentUser()
-        .then((res) => dispatch(storeUser(res.data.data)))
+        .then((res) => {
+          isLogin = true;
+          dispatch(storeUser(res.data.data));
+        })
         .catch((err) => {
+          isLogin = false;
           clearTokens();
         })
         .finally(() => dispatch(setLoginStatus({ isLogin, isChecking })));

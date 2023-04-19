@@ -27,6 +27,7 @@ export const getRefreshToken = () => {
   }
   return item.value;
 };
+
 export const removeRefreshToken = () =>
   localStorage.removeItem(REFRESH_TOKEN_NAME);
 
@@ -35,6 +36,7 @@ export const saveAccessToken = (token) =>
 export const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN_NAME);
 export const removeAccessToken = () =>
   localStorage.removeItem(ACCESS_TOKEN_NAME);
+  saveAccessToken(null);
 
 export const setRememberMe = (value) =>
   localStorage.setItem(REMEMBER_ME_NAME, value);

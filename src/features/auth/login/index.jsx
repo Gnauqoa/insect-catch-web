@@ -12,12 +12,12 @@ import { storeUser } from "./userReducer";
 import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
+import { setLoginStatus } from "./loginStatusReducer";
 
 const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
-  const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -31,6 +31,7 @@ const Login = () => {
     login({ email: loginForm.email, password: loginForm.password })
       .then((res) => {
         dispatch(storeUser(res.data.data));
+        dispatch(setLoginStatus({ isChecking: false, isLogin: true }));
         toast.success("Login success!");
         navigate("/");
       })
@@ -42,16 +43,6 @@ const Login = () => {
         onLoaded();
       });
   };
-  useEffect(() => {
-    if (loginStatus.isLogin) navigate("/");
-  }, [loginStatus]);
-  if (loginStatus.isChecking)
-    return (
-      <div className="h-screen w-full flex flex-col items-center justify-center">
-        <CircularProgress />
-      </div>
-    );
-  if (loginStatus.isLogin) return <></>;
   return (
     <div className="flex flex-col pt-6 w-full">
       <div className="flex flex-col w-full items-center">
