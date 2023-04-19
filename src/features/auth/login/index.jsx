@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -7,28 +7,52 @@ import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
 import { Link, useNavigate } from "react-router-dom";
 import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { storeUser } from "./userReducer";
 import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
 import { setLoginStatus } from "./loginStatusReducer";
+import getErrorMessage from "services/validate";
 
 const Login = () => {
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [formValue, setFormValue] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setLoginForm({
-      ...loginForm,
-      [e.currentTarget.name]: e.currentTarget.value,
+    const { name, value } = e.currentTarget;
+    setFormValue({
+      ...formValue,
+      [name]: value,
     });
+    if (isError(name))
+      setErrorMessage({
+        ...errorMessage,
+        [name]: getErrorMessage(name, value),
+      });
   };
+  const handleComplete = (e) => {
+    const { name, value } = e.currentTarget;
+    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
+  };
+  const isError = (name) => {
+    return errorMessage[name].length;
+  };
+  const isDisable = () => {
+    return (
+      errorMessage.email.length ||
+      errorMessage.password.length ||
+      !formValue.email.length ||
+      !formValue.password.length
+    );
+  };
+
   const handleLogin = () => {
     onLoading();
-    login({ email: loginForm.email, password: loginForm.password })
+    login({ email: formValue.email, password: formValue.password })
       .then((res) => {
         dispatch(storeUser(res.data.data));
         dispatch(setLoginStatus({ isChecking: false, isLogin: true }));
@@ -44,7 +68,7 @@ const Login = () => {
       });
   };
   return (
-    <div className="flex flex-col pt-6 w-full">
+    <div className="flex flex-col w-full">
       <div className="flex flex-col w-full items-center">
         <img
           alt="logo"
@@ -58,6 +82,7 @@ const Login = () => {
             fontSize: 40,
             fontWeight: 700,
             color: "#121115",
+            fontFamily: "DM Sans",
           }}
         >
           Welcome back
@@ -66,14 +91,18 @@ const Login = () => {
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col pt-4 gap-3 w-[30%]">
           <MyInput
-            value={loginForm.email}
+            onBlur={handleComplete}
+            value={formValue.email}
+            error_message={errorMessage.email}
             onChange={handleChange}
             name="email"
             label="Email"
             startIcon={IconSms}
           />
           <MyInput
-            value={loginForm.password}
+            onBlur={handleComplete}
+            value={formValue.password}
+            error_message={errorMessage.password}
             onChange={handleChange}
             name="password"
             label="Password"
@@ -97,7 +126,7 @@ const Login = () => {
         </div>
         <div className="flex flex-col items-center w-[30%]">
           <Button
-            disabled={loading}
+            disabled={loading || !!isDisable()}
             variant="primary filled"
             sx={{ borderRadius: "90px", width: "100%" }}
             onClick={handleLogin}
@@ -119,7 +148,7 @@ const Login = () => {
             }}
           >
             Don't have an account ?{" "}
-            <Link>
+            <Link to="/auth/register">
               <span className="text-primary-main">Sign up for free</span>
             </Link>
           </Typography>

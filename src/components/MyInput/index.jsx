@@ -13,26 +13,36 @@ const MyInput = ({
   onChange,
   sx,
   value,
+  error_message = "",
+  onBlur,
   ...props
 }) => {
   const [invisible, setInvisible] = useState(false);
   useEffect(() => {
     if (type === "password") setInvisible(true);
   }, []);
+  const isError = !!error_message.length;
   return (
-    <div className="flex flex-col gap-2">
-      <Typography sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}>
-        {label}
-      </Typography>
+    <div className="flex flex-col gap-2 w-full">
+      {label ? (
+        <Typography sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}>
+          {label}
+        </Typography>
+      ) : (
+        <></>
+      )}
       <Input
+        onBlur={onBlur}
+        defaultValue={value}
         autoComplete={"none"}
         disabled={disabled}
         onChange={onChange}
-        type={invisible ? "password" : ""}
+        type={invisible ? "password" : type === "date" ? "date" : ""}
         sx={{
-          border: "2px solid #DEDDE1",
+          width: "100%",
+          border: isError ? "1px solid #E1251B" : "2px solid #DEDDE1",
           borderRadius: "12px",
-          padding: "12px 16px",
+          padding: "8px 16px",
           ":hover ": {
             boxShadow: !disabled && "0px 0px 5px 5px #fff2db",
           },
@@ -84,6 +94,13 @@ const MyInput = ({
         }
         {...props}
       />
+      {isError ? (
+        <Typography sx={{ fontSize: 12, fontWeight: 400, color: "#E1251B" }}>
+          {error_message}
+        </Typography>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

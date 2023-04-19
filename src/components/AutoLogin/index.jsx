@@ -1,6 +1,6 @@
 import { setLoginStatus } from "features/auth/login/loginStatusReducer";
 import { storeUser } from "features/auth/login/userReducer";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAccessTokenFromRefreshToken,
@@ -12,21 +12,24 @@ import {
   clearTokens,
   getAccessToken,
   getRefreshToken,
+  removeAccessToken,
 } from "services/localStorage";
 
 const AutoLogin = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const login = () => {
     let { isChecking, isLogin } = loginStatus;
     if (!isChecking) return;
     isChecking = false;
     console.log("auto login");
+    console.log(getAccessToken(), getRefreshToken());
     if (validateToken(getRefreshToken())) {
       if (!validateToken(getAccessToken())) {
         console.log("get new access_token");
         getAccessTokenFromRefreshToken()
           .then((res) => {
+            console.log("new token", getAccessToken());
             isLogin = true;
             getCurrentUser().then((res) => dispatch(storeUser(res.data.data)));
           })
@@ -49,7 +52,9 @@ const AutoLogin = () => {
         })
         .catch((err) => {
           isLogin = false;
-          clearTokens();
+          removeAccessToken();
+          login();
+          return;
         })
         .finally(() => dispatch(setLoginStatus({ isLogin, isChecking })));
       return;
@@ -57,7 +62,10 @@ const AutoLogin = () => {
     console.log("login failed");
     clearTokens();
     dispatch(setLoginStatus({ isLogin, isChecking }));
-  }, [loginStatus.isChecking]);
+  };
+  useEffect(() => {
+    login();
+  }, [loginStatus]);
 };
 
 export default AutoLogin;

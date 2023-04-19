@@ -11,7 +11,13 @@ const AUTHENTICATION_URLS = {
   REFRESH_TOKEN: "/v2/user/refresh_token",
   REGISTER: "/v2/user/",
 };
-
+export const register = (payload) => {
+  return axiosForInsertCatchAPI.request({
+    method: "post",
+    url: AUTHENTICATION_URLS.REGISTER,
+    data: payload,
+  });
+};
 export const login = (payload) => {
   return axiosForInsertCatchAPI
     .request({

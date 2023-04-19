@@ -1,6 +1,6 @@
 const REFRESH_TOKEN_NAME = "_lx.rt";
 const ACCESS_TOKEN_NAME = "_lx.at";
-const REMEMBER_ME_NAME = "_lx.rmm";
+const REMEMBER_ME_NAME = "_lx.rm";
 
 const LONG_LIVE_TOKEN_TTL = 3600 * 24 * 30 * 1000;
 const SHORT_LIVE_TOKEN_TTL = 3600 * 1000;
@@ -36,7 +36,7 @@ export const saveAccessToken = (token) =>
 export const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN_NAME);
 export const removeAccessToken = () =>
   localStorage.removeItem(ACCESS_TOKEN_NAME);
-  saveAccessToken(null);
+saveAccessToken(null);
 
 export const setRememberMe = (value) =>
   localStorage.setItem(REMEMBER_ME_NAME, value);
@@ -47,5 +47,4 @@ export const removeRememberMe = () => localStorage.removeItem(REMEMBER_ME_NAME);
 export const clearTokens = () => {
   removeRefreshToken();
   removeAccessToken();
-  removeRememberMe();
 };
