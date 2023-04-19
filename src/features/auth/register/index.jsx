@@ -3,6 +3,7 @@ import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Typography, Button } from "@mui/material";
 import MyInput from "components/MyInput";
 import { Link } from "react-router-dom";
+
 const Register = () => {
   const [registerForm, setRegisterForm] = useState({
     first_name: "",

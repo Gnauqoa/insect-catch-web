@@ -12,12 +12,13 @@ import {
   clearTokens,
   getAccessToken,
   getRefreshToken,
+  removeAccessToken,
 } from "services/localStorage";
 
 const AutoLogin = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const login = () => {
     let { isChecking, isLogin } = loginStatus;
     if (!isChecking) return;
     isChecking = false;
@@ -28,6 +29,7 @@ const AutoLogin = () => {
         console.log("get new access_token");
         getAccessTokenFromRefreshToken()
           .then((res) => {
+            console.log("new token", getAccessToken());
             isLogin = true;
             getCurrentUser().then((res) => dispatch(storeUser(res.data.data)));
           })
@@ -50,7 +52,9 @@ const AutoLogin = () => {
         })
         .catch((err) => {
           isLogin = false;
-          clearTokens();
+          removeAccessToken();
+          login();
+          return;
         })
         .finally(() => dispatch(setLoginStatus({ isLogin, isChecking })));
       return;
@@ -58,6 +62,9 @@ const AutoLogin = () => {
     console.log("login failed");
     clearTokens();
     dispatch(setLoginStatus({ isLogin, isChecking }));
+  };
+  useEffect(() => {
+    login();
   }, [loginStatus]);
 };
 

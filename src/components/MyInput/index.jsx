@@ -13,12 +13,14 @@ const MyInput = ({
   onChange,
   sx,
   value,
+  error_message = "",
   ...props
 }) => {
   const [invisible, setInvisible] = useState(false);
   useEffect(() => {
     if (type === "password") setInvisible(true);
   }, []);
+  const isError = !!error_message.length;
   return (
     <div className="flex flex-col gap-2 w-full">
       {label ? (
@@ -37,7 +39,7 @@ const MyInput = ({
         type={invisible ? "password" : type}
         sx={{
           width: "100%",
-          border: "2px solid #DEDDE1",
+          border: isError ? "1px solid #E1251B" : "2px solid #DEDDE1",
           borderRadius: "12px",
           padding: "8px 16px",
           ":hover ": {
@@ -91,6 +93,13 @@ const MyInput = ({
         }
         {...props}
       />
+      {isError ? (
+        <Typography sx={{ fontSize: 12, fontWeight: 400, color: "#E1251B" }}>
+          {error_message}
+        </Typography>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

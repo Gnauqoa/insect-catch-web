@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -13,22 +13,26 @@ import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
 import { setLoginStatus } from "./loginStatusReducer";
+import getErrorMessage from "services/validate";
 
 const Login = () => {
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [formValue, setFormValue] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setLoginForm({
-      ...loginForm,
-      [e.currentTarget.name]: e.currentTarget.value,
+    const { name, value } = e.currentTarget;
+    setFormValue({
+      ...formValue,
+      [name]: value,
     });
+    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name,value) });
   };
   const handleLogin = () => {
     onLoading();
-    login({ email: loginForm.email, password: loginForm.password })
+    login({ email: formValue.email, password: formValue.password })
       .then((res) => {
         dispatch(storeUser(res.data.data));
         dispatch(setLoginStatus({ isChecking: false, isLogin: true }));
@@ -43,6 +47,7 @@ const Login = () => {
         onLoaded();
       });
   };
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col w-full items-center">
@@ -67,14 +72,16 @@ const Login = () => {
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col pt-4 gap-3 w-[30%]">
           <MyInput
-            value={loginForm.email}
+            value={formValue.email}
+            error_message={errorMessage.email}
             onChange={handleChange}
             name="email"
             label="Email"
             startIcon={IconSms}
           />
           <MyInput
-            value={loginForm.password}
+            value={formValue.password}
+            error_message={errorMessage.password}
             onChange={handleChange}
             name="password"
             label="Password"
