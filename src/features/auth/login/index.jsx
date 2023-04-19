@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import CeecLogo from "assets/logo/ceec_logo.png";
+import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
 import { ReactComponent as IconSms } from "assets/icon/icon_sms.svg";
 import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosForInsertCatchAPI } from "services/axios";
-import { saveAccessToken } from "services/localStorage";
 import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { storeUser } from "./userReducer";
 import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
@@ -19,6 +17,7 @@ const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
+  const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -43,12 +42,21 @@ const Login = () => {
         onLoaded();
       });
   };
+  useEffect(() => {
+    if (loginStatus.isLogin) navigate("/");
+  }, [loginStatus]);
+  if (loginStatus.isChecking)
+    return (
+      <div className="h-screen w-full flex flex-col items-center justify-center">
+        <CircularProgress />
+      </div>
+    );
   return (
     <div className="flex flex-col pt-6 w-full">
       <div className="flex flex-col w-full items-center">
         <img
           alt="logo"
-          src={CeecLogo}
+          src={Logo_Ceec}
           className="h-auto w-[200px] object-cover"
         />
       </div>

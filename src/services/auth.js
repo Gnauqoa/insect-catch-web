@@ -1,7 +1,8 @@
 import { axiosForInsertCatchAPI } from "./axios";
-import { clearTokens, getRefreshToken } from "./localStorage";
+import { clearTokens, getAccessToken, getRefreshToken } from "./localStorage";
 import { saveAccessToken, saveRefreshToken } from "./localStorage";
 import jwt_decode from "jwt-decode";
+import dayjs from "dayjs";
 
 const AUTHENTICATION_URLS = {
   LOGIN: "/v2/user/login",
@@ -40,13 +41,14 @@ export const logoutAll = () => {
     url: AUTHENTICATION_URLS.LOGOUT_ALL,
   });
 };
-const validateToken = (token) => {
+export const validateToken = (token) => {
   if (token === null || token === undefined || token === "") {
     return false;
   }
   const decoded = jwt_decode(token);
   return Date.now() < decoded.exp * 1000;
 };
+
 export const getAccessTokenFromRefreshToken = () => {
   const refreshToken = getRefreshToken();
   if (!validateToken(refreshToken))
@@ -58,7 +60,7 @@ export const getAccessTokenFromRefreshToken = () => {
       data: { refresh_token: refreshToken },
     })
     .then((response) => {
-      const access_token = response.data.access_token;
+      const access_token = response.data.data.access_token;
       if (access_token) {
         saveAccessToken(access_token);
         axiosForInsertCatchAPI.defaults.headers.common[

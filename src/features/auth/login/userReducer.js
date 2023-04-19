@@ -3,7 +3,7 @@ import get from "lodash/fp/get";
 
 const currentUserSlice = createSlice({
   name: "currentUser",
-  initialState: {},
+  initialState: null,
   reducers: {
     store(state, action) {
       return action.payload;
