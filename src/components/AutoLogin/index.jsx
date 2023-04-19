@@ -50,8 +50,10 @@ const AutoLogin = () => {
         .finally(() => dispatch(setLoginStatus({ isLogin, isChecking })));
       return;
     }
+    console.log("login failed");
+    clearTokens();
     dispatch(setLoginStatus({ isLogin, isChecking }));
-  }, []);
+  }, [loginStatus.isChecking]);
 };
 
 export default AutoLogin;
