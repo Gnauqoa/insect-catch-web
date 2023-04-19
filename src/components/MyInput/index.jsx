@@ -14,6 +14,7 @@ const MyInput = ({
   sx,
   value,
   error_message = "",
+  onBlur,
   ...props
 }) => {
   const [invisible, setInvisible] = useState(false);
@@ -30,13 +31,13 @@ const MyInput = ({
       ) : (
         <></>
       )}
-
       <Input
+        onBlur={onBlur}
         defaultValue={value}
         autoComplete={"none"}
         disabled={disabled}
         onChange={onChange}
-        type={invisible ? "password" : type}
+        type={invisible ? "password" : type === "date" ? "date" : ""}
         sx={{
           width: "100%",
           border: isError ? "1px solid #E1251B" : "2px solid #DEDDE1",

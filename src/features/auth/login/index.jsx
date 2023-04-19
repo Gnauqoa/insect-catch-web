@@ -28,7 +28,26 @@ const Login = () => {
       ...formValue,
       [name]: value,
     });
-    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name,value) });
+    if (isError(name))
+      setErrorMessage({
+        ...errorMessage,
+        [name]: getErrorMessage(name, value),
+      });
+  };
+  const isError = (name) => {
+    return errorMessage[name].length;
+  };
+  const isDisable = () => {
+    return (
+      errorMessage.email.length ||
+      errorMessage.password.length ||
+      !formValue.email.length ||
+      !formValue.password.length
+    );
+  };
+  const handleComplete = (e) => {
+    const { name, value } = e.currentTarget;
+    setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
   };
   const handleLogin = () => {
     onLoading();
@@ -47,7 +66,6 @@ const Login = () => {
         onLoaded();
       });
   };
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col w-full items-center">
@@ -72,6 +90,7 @@ const Login = () => {
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col pt-4 gap-3 w-[30%]">
           <MyInput
+            onBlur={handleComplete}
             value={formValue.email}
             error_message={errorMessage.email}
             onChange={handleChange}
@@ -80,6 +99,7 @@ const Login = () => {
             startIcon={IconSms}
           />
           <MyInput
+            onBlur={handleComplete}
             value={formValue.password}
             error_message={errorMessage.password}
             onChange={handleChange}
@@ -105,7 +125,7 @@ const Login = () => {
         </div>
         <div className="flex flex-col items-center w-[30%]">
           <Button
-            disabled={loading}
+            disabled={loading || !!isDisable()}
             variant="primary filled"
             sx={{ borderRadius: "90px", width: "100%" }}
             onClick={handleLogin}
