@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage, LoginPage, RegisterPage } from "./router";
 import AutoLogin from "components/AutoLogin";
 import AuthLayout from "layouts/Auth";
-import LanguageControl from "layouts/Language";
+import LanguageControl from "layouts/LanguageControl";
 import { I18nextProvider } from "react-i18next";
 import i18next from "language";
 

@@ -18,10 +18,11 @@ const LanguageControl = () => {
       return;
     }
     for (let i = 2; i < path_array.length; ++i) url += `/${path_array[i]}`;
-    if (!validLanguage(lang)) return navigate(`/${defaultLanguage}${url}`);
-    navigate(`/${lang}${url}`);
-    i18n.changeLanguage(lang);
-  }, []);
+    if (!validLanguage(lang)) {
+      return navigate(`/${defaultLanguage}${url}`);
+    }
+    if (lang !== defaultLanguage) i18n.changeLanguage(lang);
+  }, [params]);
   return (
     <div>
       <Outlet />

@@ -8,6 +8,7 @@ import { register } from "services/auth";
 import { toast } from "react-toastify";
 import useToggle from "hooks/useToggle";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const [formValue, setFormValue] = useState({
@@ -26,6 +27,7 @@ const Register = () => {
   });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleComplete = (e) => {
     const { name, value } = e.currentTarget;
     setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
