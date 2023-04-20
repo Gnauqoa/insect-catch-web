@@ -1,3 +1,4 @@
+import { defaultLanguage } from "language";
 import { useNavigate, useParams } from "react-router-dom";
 
 const useMyNavigate = () => {
@@ -9,7 +10,7 @@ const useMyNavigate = () => {
       navigate(`/${lang}${url}`);
       return;
     }
-    navigate(`/en${url}`);
+    navigate(`/${defaultLanguage}${url}`);
   };
   return myNavigate;
 };

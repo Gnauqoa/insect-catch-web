@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -14,12 +14,14 @@ import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
 import { setLoginStatus } from "./loginStatusReducer";
 import getErrorMessage from "services/validate";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const [formValue, setFormValue] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -85,7 +87,7 @@ const Login = () => {
             fontFamily: "DM Sans",
           }}
         >
-          Welcome back
+          {t("login.title")}
         </Typography>
       </div>
       <div className="flex flex-col w-full items-center">
