@@ -1,7 +1,7 @@
 import i18next from "i18next";
 import login from "./login";
 import register from "./register";
-const defaultLanguage = "vi";
+const defaultLanguage = "en";
 
 i18next.init({
   lng: defaultLanguage,

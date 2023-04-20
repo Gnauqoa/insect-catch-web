@@ -16,14 +16,20 @@ const LanguageControl = () => {
     if (!lang) {
       for (let i = 1; i < path_array.length; ++i) url += `/${path_array[i]}`;
       navigate(`/${defaultLanguage}${url}`);
+      console.log("case 1", lang);
       return;
     }
     for (let i = 2; i < path_array.length; ++i) url += `/${path_array[i]}`;
     if (!validLanguage(lang)) {
+      console.log("case 2", lang);
       return navigate(`/${defaultLanguage}${url}`);
     }
-    if (lang !== defaultLanguage) i18n.changeLanguage(lang);
-  }, [params]);
+    if (lang !== defaultLanguage) {
+      console.log("case 3", lang);
+      i18n.changeLanguage(lang);
+      // navigate(`/${lang}${url}`);
+    }
+  }, [params.lang]);
   return (
     <div>
       <Outlet />

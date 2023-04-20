@@ -200,7 +200,7 @@ const Register = () => {
             }}
           >
             {t("register.login_message")}{" "}
-            <Link to="/auth/login">
+            <Link to="../login">
               <span className="text-primary-main">
                 {t("register.login_message2")}
               </span>

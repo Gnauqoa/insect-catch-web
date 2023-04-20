@@ -149,7 +149,7 @@ const Login = () => {
             }}
           >
             {t("login.register_message")}
-            <Link to="/auth/register">
+            <Link to="../register">
               <span className="text-primary-main">
                 {" "}
                 {t("login.register_message2")}
