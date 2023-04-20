@@ -7,7 +7,7 @@ const AuthLayout = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
   const navigate = useNavigate();
   useEffect(() => {
-    if (loginStatus.isLogin) navigate("/");
+    if (loginStatus.isLogin) navigate("");
   }, [loginStatus]);
   if (loginStatus.isChecking)
     return (

@@ -8,6 +8,7 @@ import { register } from "services/auth";
 import { toast } from "react-toastify";
 import useToggle from "hooks/useToggle";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const [formValue, setFormValue] = useState({
@@ -26,6 +27,7 @@ const Register = () => {
   });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleComplete = (e) => {
     const { name, value } = e.currentTarget;
     setErrorMessage({ ...errorMessage, [name]: getErrorMessage(name, value) });
@@ -73,7 +75,7 @@ const Register = () => {
         console.log(err.response);
         toast.error(err.response.data.message);
         onLoaded();
-      })
+      });
   };
   return (
     <div className="flex flex-col w-full pb-8">
@@ -93,7 +95,7 @@ const Register = () => {
             fontFamily: "DM Sans",
           }}
         >
-          Sign up to app
+          {t("register.title")}
         </Typography>
       </div>
       <div className="flex flex-col w-full items-center">
@@ -102,7 +104,7 @@ const Register = () => {
             <Typography
               sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}
             >
-              Full name
+              {t("register.name")}
             </Typography>
             <div className="flex flex-row gap-4 items-center w-full">
               <MyInput
@@ -110,14 +112,14 @@ const Register = () => {
                 value={formValue.first_name}
                 onChange={handleChange}
                 name="first_name"
-                placeholder="First name"
+                placeholder={t("register.first_name")}
               />
               <MyInput
                 onBlur={handleComplete}
                 value={formValue.last_name}
                 onChange={handleChange}
                 name="last_name"
-                placeholder="Last name"
+                placeholder={t("register.last_name")}
               />
             </div>
           </div>
@@ -135,7 +137,7 @@ const Register = () => {
             onChange={handleChange}
             name="password"
             placeholder="***********"
-            label="Password"
+            label={t("register.password")}
             type="password"
           />
           <MyInput
@@ -143,7 +145,7 @@ const Register = () => {
             onChange={handleBirthChange}
             name="birth"
             placeholder="08/10/2003"
-            label="Birth"
+            label={t("register.birth")}
             type="date"
           />
           <div className="flex flex-col">
@@ -155,8 +157,10 @@ const Register = () => {
                 textAlign: "center",
               }}
             >
-              By continuing, you agree to{" "}
-              <span className="text-primary-main">Terms of Service</span>
+              {t("register.confirm_text1")}{" "}
+              <span className="text-primary-main">
+                {t("register.confirm_text2")}
+              </span>
             </Typography>
             <Typography
               sx={{
@@ -166,8 +170,11 @@ const Register = () => {
                 textAlign: "center",
               }}
             >
-              and acknowledge{" "}
-              <span className="text-primary-main">Privacy Policy</span> .
+              {t("register.confirm_text3")}{" "}
+              <span className="text-primary-main">
+                {t("register.confirm_text4")}
+              </span>{" "}
+              .
             </Typography>
           </div>
           <Button
@@ -180,7 +187,7 @@ const Register = () => {
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             ) : (
               <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                Create account
+                {t("register.register_button")}
               </Typography>
             )}
           </Button>
@@ -192,9 +199,11 @@ const Register = () => {
               textAlign: "center",
             }}
           >
-            Already have an account?{" "}
+            {t("register.login_message")}{" "}
             <Link to="/auth/login">
-              <span className="text-primary-main">Login</span>
+              <span className="text-primary-main">
+                {t("register.login_message2")}
+              </span>
             </Link>
           </Typography>
         </div>

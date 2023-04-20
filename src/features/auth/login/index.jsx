@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -14,12 +14,14 @@ import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
 import { setLoginStatus } from "./loginStatusReducer";
 import getErrorMessage from "services/validate";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const [formValue, setFormValue] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState({ email: "", password: "" });
   const [loading, toogleLoading, onLoading, onLoaded] = useToggle(false);
   const [remember, toggleRemember] = useRemember();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -49,19 +51,18 @@ const Login = () => {
       !formValue.password.length
     );
   };
-
   const handleLogin = () => {
     onLoading();
     login({ email: formValue.email, password: formValue.password })
       .then((res) => {
         dispatch(storeUser(res.data.data));
         dispatch(setLoginStatus({ isChecking: false, isLogin: true }));
-        toast.success("Login success!");
+        toast.success(t("login.request_message.200"));
         navigate("/");
       })
       .catch((err) => {
         console.log(err.response);
-        toast.error(err.response.data.message);
+        toast.error(t(`login.request_message.${err.response.status}`));
       })
       .finally((data) => {
         onLoaded();
@@ -85,7 +86,7 @@ const Login = () => {
             fontFamily: "DM Sans",
           }}
         >
-          Welcome back
+          {t("login.title")}
         </Typography>
       </div>
       <div className="flex flex-col w-full items-center">
@@ -96,7 +97,7 @@ const Login = () => {
             error_message={errorMessage.email}
             onChange={handleChange}
             name="email"
-            label="Email"
+            label={t("login.email")}
             startIcon={IconSms}
           />
           <MyInput
@@ -105,7 +106,7 @@ const Login = () => {
             error_message={errorMessage.password}
             onChange={handleChange}
             name="password"
-            label="Password"
+            label={t("login.password")}
             type="password"
             startIcon={IconLock}
           />
@@ -114,12 +115,12 @@ const Login = () => {
           <MyCheckBox
             value={remember}
             onChange={toggleRemember}
-            label="Remember me"
+            label={t("login.remember")}
           />
           <div className="ml-auto">
             <Link>
               <Typography sx={{ color: "primary.main" }}>
-                Forgot password
+                {t("login.forgot_password")}
               </Typography>
             </Link>
           </div>
@@ -135,7 +136,7 @@ const Login = () => {
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             ) : (
               <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                Login
+                {t("login.button_login")}
               </Typography>
             )}
           </Button>
@@ -147,9 +148,12 @@ const Login = () => {
               color: "#5C5668",
             }}
           >
-            Don't have an account ?{" "}
+            {t("login.register_message")}
             <Link to="/auth/register">
-              <span className="text-primary-main">Sign up for free</span>
+              <span className="text-primary-main">
+                {" "}
+                {t("login.register_message2")}
+              </span>
             </Link>
           </Typography>
         </div>
