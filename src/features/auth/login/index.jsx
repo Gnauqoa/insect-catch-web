@@ -57,12 +57,12 @@ const Login = () => {
       .then((res) => {
         dispatch(storeUser(res.data.data));
         dispatch(setLoginStatus({ isChecking: false, isLogin: true }));
-        toast.success("Login success!");
+        toast.success(t("login.request_message.200"));
         navigate("/");
       })
       .catch((err) => {
         console.log(err.response);
-        toast.error(err.response.data.message);
+        toast.error(t(`login.request_message.${err.response.status}`));
       })
       .finally((data) => {
         onLoaded();

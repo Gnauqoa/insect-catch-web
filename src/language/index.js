@@ -23,5 +23,8 @@ i18next.init({
     },
   },
 });
-export { defaultLanguage };
+const validLanguage = (lang) => {
+  return lang === "vi" || lang === "en";
+};
+export { defaultLanguage, validLanguage };
 export default i18next;
