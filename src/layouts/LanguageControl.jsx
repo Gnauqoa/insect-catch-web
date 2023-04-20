@@ -27,7 +27,6 @@ const LanguageControl = () => {
     if (lang !== defaultLanguage) {
       console.log("case 3", lang);
       i18n.changeLanguage(lang);
-      // navigate(`/${lang}${url}`);
     }
   }, [params.lang]);
   return (

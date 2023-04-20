@@ -14,6 +14,11 @@ const register = {
     register_button: "Đăng ký",
     login_message: "Đã có tài khoản?",
     login_message2: "Đăng nhập ngay",
+    request_message: {
+      409: "Tài khoản đã tồn tại",
+      201: "Tạo tài khoản thành công",
+      500: "Người dùng phải đủ 18 tuổi",
+    },
   },
   en: {
     title: "Sign up to app",
@@ -29,6 +34,11 @@ const register = {
     register_button: "Register",
     login_message: "Already have an account?",
     login_message2: "Login",
+  },
+  request_message: {
+    409: "Account already exist",
+    201: "Create account success",
+    500: "User must older than 18",
   },
 };
 

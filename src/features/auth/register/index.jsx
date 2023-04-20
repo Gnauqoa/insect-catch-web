@@ -67,13 +67,13 @@ const Register = () => {
     onLoading();
     register({ ...formValue, birth: dayjs(formValue.birth).toDate() })
       .then((res) => {
-        console.log(res.data);
-        toast.success("Sign up success!");
-        setTimeout(() => navigate("/auth/login"), 3000);
+        console.log(res.status);
+        toast.success(t(`register.request_message.${res.status}`));
+        setTimeout(() => navigate("../login"), 3000);
       })
       .catch((err) => {
         console.log(err.response);
-        toast.error(err.response.data.message);
+        toast.error(t(`register.request_message.${err.response.status}`));
         onLoaded();
       });
   };
