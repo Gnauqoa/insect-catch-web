@@ -4,7 +4,7 @@ import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
 import { ReactComponent as IconSms } from "assets/icon/icon_sms.svg";
 import { ReactComponent as IconLock } from "assets/icon/icon_lock.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
 import { useDispatch } from "react-redux";
@@ -23,7 +23,6 @@ const Login = () => {
   const [remember, toggleRemember] = useRemember();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.currentTarget;
     setFormValue({

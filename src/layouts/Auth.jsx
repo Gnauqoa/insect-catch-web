@@ -9,7 +9,7 @@ const AuthLayout = () => {
   useEffect(() => {
     if (loginStatus.isLogin) {
       console.log("out by layout");
-      navigate("../", { replace: true });
+      navigate("../");
     }
   }, [loginStatus]);
   if (loginStatus.isChecking)
