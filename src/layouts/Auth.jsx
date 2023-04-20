@@ -1,13 +1,14 @@
 import { CircularProgress } from "@mui/material";
+import useMyNavigate from "hooks/useMyNavigate";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
-  const navigate = useNavigate();
+  const navigate = useMyNavigate();
   useEffect(() => {
-    if (loginStatus.isLogin) navigate("/");
+    if (loginStatus.isLogin) navigate("");
   }, [loginStatus]);
   if (loginStatus.isChecking)
     return (
