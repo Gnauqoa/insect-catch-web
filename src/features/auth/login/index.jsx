@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo_Ceec from "assets/logo/ceec_logo.png";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import MyInput from "components/MyInput";
@@ -51,7 +51,6 @@ const Login = () => {
       !formValue.password.length
     );
   };
-
   const handleLogin = () => {
     onLoading();
     login({ email: formValue.email, password: formValue.password })
@@ -98,7 +97,7 @@ const Login = () => {
             error_message={errorMessage.email}
             onChange={handleChange}
             name="email"
-            label="Email"
+            label={t("login.email")}
             startIcon={IconSms}
           />
           <MyInput
@@ -107,7 +106,7 @@ const Login = () => {
             error_message={errorMessage.password}
             onChange={handleChange}
             name="password"
-            label="Password"
+            label={t("login.password")}
             type="password"
             startIcon={IconLock}
           />
@@ -116,12 +115,12 @@ const Login = () => {
           <MyCheckBox
             value={remember}
             onChange={toggleRemember}
-            label="Remember me"
+            label={t("login.remember")}
           />
           <div className="ml-auto">
             <Link>
               <Typography sx={{ color: "primary.main" }}>
-                Forgot password
+                {t("login.forgot_password")}
               </Typography>
             </Link>
           </div>
@@ -137,7 +136,7 @@ const Login = () => {
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             ) : (
               <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                Login
+                {t("login.button_login")}
               </Typography>
             )}
           </Button>
@@ -149,9 +148,12 @@ const Login = () => {
               color: "#5C5668",
             }}
           >
-            Don't have an account ?{" "}
+            {t("login.register_message")}
             <Link to="/auth/register">
-              <span className="text-primary-main">Sign up for free</span>
+              <span className="text-primary-main">
+                {" "}
+                {t("login.register_message2")}
+              </span>
             </Link>
           </Typography>
         </div>
