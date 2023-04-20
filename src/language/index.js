@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import login from "./login";
-
+import register from "./register";
 const defaultLanguage = "vi";
 
 i18next.init({
@@ -14,11 +14,13 @@ i18next.init({
     en: {
       translation: {
         login: login.en,
+        register: register.en,
       },
     },
     vi: {
       translation: {
         login: login.vi,
+        register: register.vi,
       },
     },
   },

@@ -12,6 +12,7 @@ const LanguageControl = () => {
     const { lang } = params;
     const path_array = location.pathname.split("/");
     let url = "";
+
     if (!lang) {
       for (let i = 1; i < path_array.length; ++i) url += `/${path_array[i]}`;
       navigate(`/${defaultLanguage}${url}`);
