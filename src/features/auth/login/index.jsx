@@ -88,7 +88,7 @@ const Login = () => {
         </Typography>
       </div>
       <div className="flex flex-col w-full items-center">
-        <div className="flex flex-col pt-4 gap-3 w-[30%]">
+        <div className="flex flex-col pt-4 gap-3 xl:w-[30%] w-[80%]">
           <MyInput
             onBlur={handleComplete}
             value={formValue.email}
@@ -109,7 +109,7 @@ const Login = () => {
             startIcon={IconLock}
           />
         </div>
-        <div className="flex flex-row py-6 w-[30%] items-center">
+        <div className="flex flex-row py-6 xl:w-[30%] w-[80%] items-center">
           <MyCheckBox
             value={remember}
             onChange={toggleRemember}
@@ -123,7 +123,7 @@ const Login = () => {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col items-center w-[30%]">
+        <div className="flex flex-col items-center xl:w-[30%] w-[80%]">
           <Button
             disabled={loading || !!isDisable()}
             variant="primary filled"
