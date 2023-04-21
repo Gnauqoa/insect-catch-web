@@ -99,7 +99,7 @@ const Register = () => {
         </Typography>
       </div>
       <div className="flex flex-col w-full items-center">
-        <div className="flex flex-col pt-4 gap-3 w-[40%]">
+        <div className="flex flex-col pt-4 gap-3 xl:w-[40%] w-[80%]">
           <div className="flex flex-col gap-2 w-full">
             <Typography
               sx={{ fontSize: 14, fontWeight: 500, color: "#121115" }}
