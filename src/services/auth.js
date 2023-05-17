@@ -1,8 +1,7 @@
 import { axiosForInsertCatchAPI } from "./axios";
-import { clearTokens, getAccessToken, getRefreshToken } from "./localStorage";
+import { clearTokens, getRefreshToken } from "./localStorage";
 import { saveAccessToken, saveRefreshToken } from "./localStorage";
 import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
 
 const AUTHENTICATION_URLS = {
   LOGIN: "/v2/user/login",

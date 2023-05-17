@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "features/auth/login/userReducer.js";
-import loginStatusReducer from "features/auth/login/loginStatusReducer.js";
+import userReducer from "pages/auth/login/userReducer.js";
+import loginStatusReducer from "pages/auth/login/loginStatusReducer.js";
 
 export const store = configureStore({
   reducer: {

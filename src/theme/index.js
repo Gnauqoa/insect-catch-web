@@ -32,17 +32,9 @@ const theme = createTheme({
       400: "#55c686",
     },
     text_neutral: {
-      main: "#777E91",
+      main: "#4A4553",
+      white: "#fff",
     },
-    border_neutral: {
-      main: "#F3F3F3",
-      sub: "#E6E8EC",
-    },
-    border_moreDark: {
-      main: "#E6E8EC",
-    },
-    text_black: { main: "#23262F" },
-    text_green: { main: "#45B26B" },
   },
   components: {
     MuiTextField: {

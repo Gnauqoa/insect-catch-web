@@ -2,7 +2,7 @@ import { useState } from "react";
 import { axiosForInsertCatchAPI } from "services/axios";
 import useToggle from "./useToggle";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginStatus } from "features/auth/login/loginStatusReducer";
+import { setLoginStatus } from "pages/auth/login/loginStatusReducer";
 
 const useAPI = ({ url, method = "get", data = null, params = null }) => {
   const [response, setResponse] = useState(null);

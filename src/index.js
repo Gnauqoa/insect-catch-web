@@ -6,6 +6,10 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
