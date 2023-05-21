@@ -1,8 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-  typography: {
-    fontFamily: "Poppins",
+  fontFamily: {
+    fontFamily: "'Poppins', sans-serif",
   },
   palette: {
     batterySlider: {
@@ -34,6 +34,12 @@ const theme = createTheme({
     text_neutral: {
       main: "#4A4553",
       white: "#fff",
+    },
+    battery: {
+      100: "#25cc40",
+      50: "#9fdf54",
+      25: "#f4f458",
+      0: "#ec3e3f",
     },
   },
   components: {

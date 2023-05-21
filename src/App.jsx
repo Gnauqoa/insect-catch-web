@@ -46,7 +46,7 @@ const App = () => {
               <Route path="dashboard" element={<PrivateRouter />}>
                 <Route path="" element={<DashBoardLayout />}>
                   <Route
-                    path="device/:device_id?"
+                    path="device/:device_id?/:page?"
                     element={<DevicePage />}
                   ></Route>
                 </Route>

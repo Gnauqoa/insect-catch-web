@@ -81,7 +81,6 @@ const Login = () => {
             fontSize: 40,
             fontWeight: 700,
             color: "#121115",
-            fontFamily: "DM Sans",
           }}
         >
           {t("login.title")}

@@ -1,38 +1,50 @@
-import { IconButton, SvgIcon, Typography } from "@mui/material";
+import { Box, IconButton, SvgIcon, Typography } from "@mui/material";
 import React from "react";
 import { ReactComponent as IconMenu } from "assets/icon/icon_menu.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ReactComponent as IconArrowLeft } from "assets/icon/icon_arrow_left.svg";
+import { useTranslation } from "react-i18next";
 
 const Introduce = () => {
   const { device_id, lang } = useParams();
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   if (device_id)
     return (
-      <div>
+      <div className="flex flex-col gap-6">
         <Typography
           sx={{ color: "text_neutral.main", fontSize: 24, fontWeight: 700 }}
         >
-          My Devices
+          {t("device.title")}
         </Typography>
-        <div
-          onClick={() => navigate(`/${lang}/dashboard/device`)}
-          className="flex flex-row items-center cursor-pointer"
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            cursor: "pointer",
+            color: "text_neutral.main",
+
+            gap: "8px",
+          }}
         >
-          <IconButton>
-            <SvgIcon
-              component={IconArrowLeft}
-              inheritViewBox={true}
-              sx={{ width: 24, height: 24 }}
-            />
-          </IconButton>
-          <Typography
-            sx={{ fontSize: 20, fontWeight: 700, color: "text_neutral.main" }}
+          <IconButton
+            onClick={() => navigate(`/${lang}/dashboard/device`)}
+            sx={{
+              width: 24,
+              height: 24,
+              color: "text_neutral.main",
+              ":hover": {
+                color: "primary.main",
+              },
+            }}
           >
-            Back
+            <SvgIcon component={IconArrowLeft} inheritViewBox={true} />
+          </IconButton>
+          <Typography sx={{ fontSize: 16, fontWeight: 700 }}>
+            {t("device.back_button")}
           </Typography>
-        </div>
+        </Box>
       </div>
     );
   return (
@@ -40,11 +52,11 @@ const Introduce = () => {
       <Typography
         sx={{ color: "text_neutral.main", fontSize: 24, fontWeight: 700 }}
       >
-        My Devices
+        {t("device.title")}
       </Typography>
       <div className="flex flex-row items-center gap-3">
         <Typography sx={{ fontSize: 16, fontWeight: 400, color: "#03030AA6" }}>
-          2 Devices
+          2 {t("device.text_count")}
         </Typography>
         <IconButton
           sx={{
