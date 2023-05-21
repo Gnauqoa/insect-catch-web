@@ -1,5 +1,5 @@
-import { setLoginStatus } from "pages/auth/login/loginStatusReducer";
-import { storeUser } from "pages/auth/login/userReducer";
+import { setLoginStatus } from "reducers/loginStatusReducer";
+import { storeUser } from "reducers/userReducer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {

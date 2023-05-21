@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 import useToggle from "hooks/useToggle";
 import { login } from "services/auth";
 import { useDispatch } from "react-redux";
-import { storeUser } from "./userReducer";
+import { storeUser } from "reducers/userReducer";
 import { toast } from "react-toastify";
 import MyCheckBox from "components/MyCheckBox";
 import useRemember from "hooks/useRemember";
-import { setLoginStatus } from "./loginStatusReducer";
+import { setLoginStatus } from "reducers/loginStatusReducer";
 import getErrorMessage from "services/validate";
 import { useTranslation } from "react-i18next";
 

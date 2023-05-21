@@ -135,7 +135,12 @@ const Control = ({
             inheritViewBox={true}
             sx={{ width: 48, height: 48, color: "primary.400" }}
           />
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
+            <Typography
+              sx={{ fontSize: 12, fontWeight: 500, color: "#babec5" }}
+            >
+              {t("device.weather")}
+            </Typography>
             <Typography
               sx={{ fontSize: 20, fontWeight: 600, color: "text_neutral" }}
             >

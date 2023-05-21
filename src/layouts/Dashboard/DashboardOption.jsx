@@ -19,7 +19,11 @@ const DashboardOption = ({ icon, title, checked, to }) => {
             transition: "all 0.1s ease",
           }}
         >
-          <SvgIcon component={icon} inheritViewBox={true} />
+          <SvgIcon
+            sx={{ width: 24, height: 24 }}
+            component={icon}
+            inheritViewBox={true}
+          />
         </Box>
       </Link>
     </Tooltip>

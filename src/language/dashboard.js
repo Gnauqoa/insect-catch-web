@@ -5,6 +5,7 @@ const dashboard = {
       vi: "Tiếng Việt",
       en: "Tiếng Anh",
     },
+    logout: "Đăng xuất",
   },
   en: {
     device_title: "My Device",
@@ -12,6 +13,7 @@ const dashboard = {
       vi: "Vietnamese",
       en: "English",
     },
+    logout: "Logout",
   },
 };
 

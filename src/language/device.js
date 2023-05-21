@@ -51,7 +51,7 @@ const device = {
     online_text: "Online",
     offline_text: "Offline",
     back_button: "Back",
-    temp: "Nhiệt độ",
+    temp: "Temp",
     humi: "Humi",
     optic: "Optic",
     weather: "Weather",

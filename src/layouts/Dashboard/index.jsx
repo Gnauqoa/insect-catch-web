@@ -5,10 +5,13 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageMenu from "./LanguageMenu";
 import DashboardOption from "./DashboardOption";
+import UserMenu from "./UserMenu";
+import useToggle from "hooks/useToggle";
 
 const DashBoardLayout = () => {
   const { t } = useTranslation();
   const location = useLocation().pathname.split("/")[2];
+  const [openModal, onToggle, onOpen, onClose] = useToggle();
   return (
     <div className="flex flex-row w-full relative">
       <Box
@@ -28,6 +31,7 @@ const DashBoardLayout = () => {
         />
         <div className="flex flex-col mt-auto">
           <LanguageMenu />
+          <UserMenu onLogout={onOpen} />
         </div>
       </Box>
       <Outlet />
