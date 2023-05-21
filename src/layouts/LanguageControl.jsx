@@ -10,6 +10,7 @@ const LanguageControl = () => {
   const { i18n } = useTranslation();
   useEffect(() => {
     const { lang } = params;
+    console.log("new");
     const path_array = location.pathname.split("/");
     let url = "";
 
@@ -24,10 +25,8 @@ const LanguageControl = () => {
       console.log("case 2", lang);
       return navigate(`/${defaultLanguage}${url}`);
     }
-    if (lang !== defaultLanguage) {
-      console.log("case 3", lang);
-      i18n.changeLanguage(lang);
-    }
+
+    i18n.changeLanguage(lang);
   }, [params.lang]);
   return (
     <div>

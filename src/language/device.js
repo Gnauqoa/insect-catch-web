@@ -5,7 +5,7 @@ const device = {
     name_column: "Tên thiết bị",
     status_column: "Trạng thái",
     update_column: "Lần cập nhật trước",
-    id_column: "Mã số",
+    id_column: "Mã thiết bị",
     action_column: "Tương tác",
     online_text: "Đang hoạt động",
     offline_text: "Ngắt kết nối",

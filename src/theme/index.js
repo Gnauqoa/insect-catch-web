@@ -5,16 +5,6 @@ const theme = createTheme({
     fontFamily: "'Poppins', sans-serif",
   },
   palette: {
-    batterySlider: {
-      high: "#28b360",
-      good: "#28b360",
-      normal: "#f0c419",
-      week: "#e77d27",
-      veryWeek: "#c03b2a",
-    },
-    textField: {
-      main: "F3C2DA",
-    },
     primary: {
       main: "#fbb326",
       50: "#fff2db",
