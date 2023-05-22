@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import Tab from "./Tab";
 import ControlPage from "./Control";
 
-const DeviceControl = () => {
+const DeviceControl = ({ device }) => {
   const { page } = useParams();
   return (
     <div className="flex flex-col">
       <TabList />
-      <ControlPage checked={page === "control"} />
+      <ControlPage {...device} checked={page === "control"} />
     </div>
   );
 };

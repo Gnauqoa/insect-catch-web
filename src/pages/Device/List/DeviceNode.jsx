@@ -5,10 +5,10 @@ import { ReactComponent as IconMenu } from "assets/icon/icon_menu.svg";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const DeviceNode = ({ name, status, updated_at }) => {
+const DeviceNode = ({ name, device_id, status, updated_at }) => {
   const { t } = useTranslation();
   return (
-    <Link to="252">
+    <Link to={device_id}>
       <div className="flex flex-row items-center py-4 w-full group transition-colors hover:bg-[#03030A05] cursor-pointer">
         <div className="flex flex-col w-full px-3  ">
           <Typography
@@ -51,7 +51,7 @@ const DeviceNode = ({ name, status, updated_at }) => {
             className="group-hover:text-primary-main"
             sx={{ fontSize: 14, fontWeight: 400, color: "text_neutral.main" }}
           >
-            252
+            {device_id}
           </Typography>
         </div>
         <div className="flex flex-col w-full px-3">

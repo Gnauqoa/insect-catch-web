@@ -1,13 +1,21 @@
-import { Box, IconButton, SvgIcon } from "@mui/material";
-import React from "react";
+import { Box, CircularProgress, IconButton, SvgIcon } from "@mui/material";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ReactComponent as IconClose } from "assets/icon/icon_close.svg";
 import Introduce from "./Introduce";
 import DeviceControl from "./DeviceControl";
+import useAPI from "hooks/useApi";
 
 const Container = () => {
   const { device_id, lang } = useParams();
   const navigate = useNavigate();
+  const [getDevice, loading, currentDevice] = useAPI(
+    `/v2/user/current/device/${device_id}`,
+    "get"
+  );
+  useEffect(() => {
+    if (device_id) getDevice();
+  }, [device_id]);
   if (device_id)
     return (
       <div className="flex flex-col py-6 pl-3">
@@ -18,8 +26,17 @@ const Container = () => {
           <SvgIcon component={IconClose} inheritViewBox={true}></SvgIcon>
         </IconButton>
         <div className="flex flex-col pl-[32px] gap-12 relative ">
-          <Introduce />
-          <DeviceControl />
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              <Introduce
+                name={currentDevice?.data.data.name}
+                status={currentDevice?.data.data.status}
+              />
+              <DeviceControl device={currentDevice?.data.data} />
+            </>
+          )}
         </div>
       </div>
     );

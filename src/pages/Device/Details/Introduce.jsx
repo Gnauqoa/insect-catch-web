@@ -4,9 +4,11 @@ import { ReactComponent as IconCube } from "assets/icon/icon_cube.svg";
 import { ReactComponent as IconMenu } from "assets/icon/icon_menu.svg";
 import { ReactComponent as IconUser } from "assets/icon/icon_user.svg";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-const Introduce = ({ status }) => {
+const Introduce = ({ name, status }) => {
   const { t } = useTranslation();
+  const currentUser = useSelector((state) => state.currentUser);
   return (
     <div className="flex flex-row gap-4">
       <div className="flex flex-col w-[96px] h-[96px] p-7 border-[1px] border-[#03030A0F] rounded-[4px]">
@@ -21,7 +23,7 @@ const Introduce = ({ status }) => {
           <Typography
             sx={{ fontSize: 23, fontWeight: 700, color: "#03030AD9" }}
           >
-            Insert catch
+            {name}
           </Typography>
           {status ? (
             <div className="flex flex-row w-auto justify-center px-2 py-1 border-[1px] border-[#c5ead3] rounded-[4px] bg-[#55c686]">
@@ -62,7 +64,7 @@ const Introduce = ({ status }) => {
           <Typography
             sx={{ fontSize: 16, fontWeight: 400, color: "secondary.main" }}
           >
-            Quang
+            {currentUser.last_name}
           </Typography>
         </div>
       </div>
