@@ -1,19 +1,31 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Box, CircularProgress } from "@mui/material";
+import React, { useEffect } from "react";
 import DeviceList from "./List";
 import DeviceDetails from "./Details";
 import { useParams } from "react-router-dom";
 import Introduce from "./Introduce";
+import useAPI from "hooks/useApi";
+import { useDispatch } from "react-redux";
+import { setDeviceList } from "reducers/deviceListReducer";
 
 const DevicePage = () => {
-  const { device_id } = useParams();
+  const dispatch = useDispatch();
+  const [getDeviceList, loading] = useAPI(
+    "/v2/user/current/device",
+    "get"
+  );
+  useEffect(() => {
+    getDeviceList().then((res) => {
+      dispatch(setDeviceList(res.data.data.items));
+    });
+  }, []);
   return (
     <div className="flex flex-row w-full relative">
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          padding: device_id ? "24px 20px" : "48px 20px",
+          padding: "48px 20px",
           gap: "24px",
           width: "100%",
           background: "#fff",
@@ -23,7 +35,7 @@ const DevicePage = () => {
         className="flex flex-col px-12 py-5 gap-6 w-full"
       >
         <Introduce />
-        <DeviceList />
+        {loading ? <CircularProgress /> : <DeviceList />}
       </Box>
       <DeviceDetails />
     </div>

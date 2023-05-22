@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  Slider,
-  SvgIcon,
-  Switch,
-  Typography,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Slider, SvgIcon, Switch, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { ReactComponent as IconHumi } from "assets/icon/icon_humi.svg";
 import { ReactComponent as IconTemp } from "assets/icon/icon_temp.svg";
 import { ReactComponent as IconBrightness } from "assets/icon/icon_brightness.svg";
@@ -20,6 +13,14 @@ import { ReactComponent as IconSave } from "assets/icon/icon_save.svg";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
+import useAPI from "hooks/useApi";
+import { useParams } from "react-router-dom";
+import {
+  onInputChange,
+  onSwitchChange,
+  onTimeChange,
+} from "services/inputControl";
+import { toast } from "react-toastify";
 
 const Control = ({
   temp = 23,
@@ -44,29 +45,30 @@ const Control = ({
   checked,
 }) => {
   const defaultInput = {
-    gridStatus: grid_status,
+    grid_status: grid_status,
     ledColor: led_color,
     brightness: brightness,
-    timeStart: time_start,
-    timeEnd: time_end,
-    timeLoop: time_send,
+    time_start: time_start,
+    time_end: time_end,
+    time_send: time_send,
   };
   const [inputData, setInputData] = useState(defaultInput);
   const { t } = useTranslation();
-  const onInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputData({ ...inputData, [name]: value });
-  };
-  const onSwitchChange = (event) => {
-    const { name, checked } = event.target;
-    setInputData({ ...inputData, [name]: checked });
-  };
-  const onTimeChange = (event, unit) => {
-    const { name, value } = event.target;
-    setInputData({
-      ...inputData,
-      [name]: { ...inputData[name], [unit]: value },
-    });
+  const { device_id } = useParams();
+  const [updateDevice, loading] = useAPI(
+    `/v2/user/current/device/${device_id}`,
+    "put",
+    { control_data: { ...inputData } }
+  );
+  const handleUpdateDevice = () => {
+    console.log(inputData);
+    updateDevice()
+      .then((res) => {
+        toast.success("Update device success!");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
   if (!checked) return <></>;
   return (
@@ -211,13 +213,13 @@ const Control = ({
             </Typography>
             <div className="flex flex-row items-center gap-3">
               <Switch
-                checked={inputData.gridStatus}
-                name="gridStatus"
-                onChange={onSwitchChange}
+                checked={inputData.grid_status}
+                name="grid_status"
+                onChange={(e) => onSwitchChange(e, setInputData)}
                 size="medium"
               />
               <Typography sx={{ fontSize: 16, fontWeight: 400 }}>
-                {inputData.gridStatus
+                {inputData.grid_status
                   ? t("device.gridStatusOn")
                   : t("device.gridStatusOff")}
               </Typography>
@@ -238,7 +240,7 @@ const Control = ({
             </Typography>
             <div className="flex flex-row gap-3 items-center">
               <input
-                onChange={onInputChange}
+                onChange={(e) => onInputChange(e, setInputData)}
                 className="h-[15px] rounded-[16px] border-[1px] border-[#000] overflow-hidden"
                 type="color"
                 name="ledColor"
@@ -283,21 +285,21 @@ const Control = ({
             </Typography>
             <TimeInput
               title={t("device.timeTurnOn.start")}
-              time={inputData.timeStart}
-              setTime={onTimeChange}
-              name="timeStart"
+              time={inputData.time_start}
+              setTime={(e, unit) => onTimeChange(e, setInputData, unit)}
+              name="time_start"
             />
             <TimeInput
               title={t("device.timeTurnOn.end")}
-              time={inputData.timeEnd}
-              setTime={onTimeChange}
-              name="timeEnd"
+              time={inputData.time_end}
+              setTime={(e, unit) => onTimeChange(e, setInputData, unit)}
+              name="time_end"
             />
             <TimeInput
               title={t("device.timeTurnOn.loop")}
-              time={inputData.timeLoop}
-              setTime={onTimeChange}
-              name="timeLoop"
+              time={inputData.time_send}
+              setTime={(e, unit) => onTimeChange(e, setInputData, unit)}
+              name="time_send "
             />
           </div>
         </Node>
@@ -364,14 +366,19 @@ const Control = ({
                 lng: coordinates.longitude - 0.06,
               }}
               style={{ height: "100vh", width: "100wh" }}
-              zoom={9}
-              scrollWheelZoom={false}
+              zoom={13}
+              scrollWheelZoom={true}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[coordinates.longitude, coordinates.latitude]}>
+              <Marker
+                position={{
+                  lat: coordinates.latitude,
+                  lng: coordinates.longitude - 0.06,
+                }}
+              >
                 <Popup>Your device</Popup>
               </Marker>
             </MapContainer>
@@ -401,6 +408,7 @@ const Control = ({
           color="success"
           variant="contained"
           startIcon={<SvgIcon inheritViewBox={true} component={IconSave} />}
+          onClick={handleUpdateDevice}
           sx={{
             fontWeight: 500,
             ":disabled": {
@@ -408,6 +416,7 @@ const Control = ({
               background: "#9D9AA4",
             },
           }}
+          loading={loading}
           disabled={defaultInput === inputData}
         >
           {t("device.save")}

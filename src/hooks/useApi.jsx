@@ -16,7 +16,7 @@ const useAPI = (url, method = "get", data = null, params = null) => {
     return axiosForInsertCatchAPI
       .request({ method, url, data, params })
       .then((res) => {
-        setResponse(res.data);
+        setResponse(res);
         return Promise.resolve(res);
       })
       .catch((err) => {
@@ -26,7 +26,7 @@ const useAPI = (url, method = "get", data = null, params = null) => {
               return axiosForInsertCatchAPI
                 .request({ method, url, data, params })
                 .then((res) => {
-                  setResponse(res.data);
+                  setResponse(res);
                   return Promise.resolve(res);
                 });
             })

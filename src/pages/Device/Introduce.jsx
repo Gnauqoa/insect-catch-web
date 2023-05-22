@@ -1,14 +1,16 @@
 import { Box, IconButton, SvgIcon, Typography } from "@mui/material";
 import React from "react";
 import { ReactComponent as IconMenu } from "assets/icon/icon_menu.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ReactComponent as IconArrowLeft } from "assets/icon/icon_arrow_left.svg";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const Introduce = () => {
   const { device_id, lang } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const device_list = useSelector((state) => state.deviceList);
   if (device_id)
     return (
       <div className="flex flex-col gap-6">
@@ -56,7 +58,7 @@ const Introduce = () => {
       </Typography>
       <div className="flex flex-row items-center gap-3">
         <Typography sx={{ fontSize: 16, fontWeight: 400, color: "#03030AA6" }}>
-          2 {t("device.text_count")}
+          {device_list ? device_list.length : 0} {t("device.text_count")}
         </Typography>
         <IconButton
           sx={{
