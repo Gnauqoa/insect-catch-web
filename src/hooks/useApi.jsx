@@ -3,6 +3,7 @@ import { axiosForInsertCatchAPI } from "services/axios";
 import useToggle from "./useToggle";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginStatus } from "reducers/loginStatusReducer";
+import { getAccessTokenFromRefreshToken } from "services/auth";
 
 const useAPI = (url, method = "get", data = null, params = null) => {
   const [response, setResponse] = useState(null);
@@ -10,25 +11,40 @@ const useAPI = (url, method = "get", data = null, params = null) => {
   const [loading, toggleLoading, onLoading, onLoaded] = useToggle(false);
   const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
-  const getData = (customAxios) => {
+  const getData = () => {
     onLoading();
     return axiosForInsertCatchAPI
       .request({ method, url, data, params })
       .then((res) => {
         setResponse(res.data);
-        return res.data;
+        return Promise.resolve(res);
       })
       .catch((err) => {
-        if (err.response.status === 401)
-          dispatch(setLoginStatus({ ...loginStatus, isChecking: true }));
+        if (err.response.status === 401) {
+          return getAccessTokenFromRefreshToken()
+            .then((res) => {
+              return axiosForInsertCatchAPI
+                .request({ method, url, data, params })
+                .then((res) => {
+                  setResponse(res.data);
+                  return Promise.resolve(res);
+                });
+            })
+            .catch((err) => {
+              dispatch(setLoginStatus({ ...loginStatus, isChecking: true }));
+              return Promise.reject(err);
+            });
+        }
         setResponse(null);
         setError(err);
-        return err;
+        return Promise.reject(err);
       })
-      .finally(() => onLoaded());
+      .finally(() => {
+        onLoaded();
+      });
   };
 
-  return [response, error, loading, getData];
+  return [getData, loading, response, error];
 };
 
 export default useAPI;

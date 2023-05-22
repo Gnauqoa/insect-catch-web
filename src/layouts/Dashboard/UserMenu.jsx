@@ -6,6 +6,9 @@ import { ReactComponent as IconLogOut } from "assets/icon/icon_logout.svg";
 import { useTranslation } from "react-i18next";
 import useToggle from "hooks/useToggle";
 import useAPI from "hooks/useApi";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoginStatus } from "reducers/loginStatusReducer";
 
 const UserMenu = () => {
   const [openTooltip, toggleTooltip, onOpen, onClose] = useToggle(false);
@@ -14,7 +17,11 @@ const UserMenu = () => {
       open={openTooltip}
       onOpen={onOpen}
       onClose={onClose}
-      title={<OptionList onClose={onClose} />}
+      title={
+        <div onClick={onClose}>
+          <OptionList />
+        </div>
+      }
       placement="right"
     >
       <Box
@@ -36,12 +43,15 @@ const UserMenu = () => {
     </CustomTooltip>
   );
 };
-const OptionList = ({ onClose }) => {
+const OptionList = () => {
   const { t } = useTranslation();
-  const [res, err, loading, logout] = useAPI("/v2/user/current", "get");
-  useEffect(() => {
-    
-  },[loading])
+  const [logout] = useAPI("/v2/user/current/logout", "delete");
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    logout().then((res) => {
+      dispatch(setLoginStatus({ isChecking: false, isLogin: false }));
+    });
+  };
   return (
     <Box
       sx={{
@@ -55,10 +65,7 @@ const OptionList = ({ onClose }) => {
       }}
     >
       <div
-        onClick={() => {
-          onClose();
-          logout();
-        }}
+        onClick={handleLogout}
         className="flex flex-row items-center gap-2 p-2 cursor-pointer bg-[#fff] hover:bg-[#f0f0f1] border-0"
       >
         <SvgIcon

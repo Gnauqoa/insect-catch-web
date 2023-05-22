@@ -73,7 +73,7 @@ export const getAccessTokenFromRefreshToken = () => {
         ] = `Bearer ${access_token}`;
       } else clearTokens();
       return Promise.resolve(response);
-    });
+    })
 };
 export const getCurrentUser = () => {
   return axiosForInsertCatchAPI
