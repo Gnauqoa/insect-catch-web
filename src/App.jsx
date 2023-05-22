@@ -7,8 +7,9 @@ import {
   Route,
   Routes,
   useLocation,
+  useParams,
 } from "react-router-dom";
-import { DevicePage, HomePage, LoginPage, RegisterPage } from "./router";
+import { DevicePage, LoginPage, RegisterPage } from "./router";
 import AutoLogin from "components/AutoLogin";
 import AuthLayout from "layouts/Auth";
 import LanguageControl from "layouts/LanguageControl";
@@ -16,27 +17,15 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "language";
 import { useSelector } from "react-redux";
 import DashBoardLayout from "layouts/Dashboard";
-import { useEffect } from "react";
-import { getAccessTokenFromRefreshToken } from "services/auth";
-
 
 const PrivateRouter = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
   const location = useLocation();
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getAccessTokenFromRefreshToken();
-    }, (process.env.REACT_APP_ACCESS_TOKEN_EXPIRES_TIME - 5 * 60) * 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const { lang } = useParams();
   if (!loginStatus.isChecking) {
     if (loginStatus.isLogin) return <Outlet />;
-    return <Navigate state={{ from: location }} to="/auth/login" />;
+    return <Navigate state={{ from: location }} to={`/${lang}/auth/login`} />;
   }
-
   return (
     <div className="flex flex-col w-full h-screen items-center justify-center">
       <CircularProgress />

@@ -2,6 +2,7 @@ import { CircularProgress } from "@mui/material";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import ChangeLanguage from "./ChangeLanguage";
 
 const AuthLayout = () => {
   const loginStatus = useSelector((state) => state.loginStatus);
@@ -17,8 +18,9 @@ const AuthLayout = () => {
     );
   if (loginStatus.isLogin) return <></>;
   return (
-    <div>
+    <div className="flex flex-col relative h-screen">
       <Outlet />
+      <ChangeLanguage />
     </div>
   );
 };

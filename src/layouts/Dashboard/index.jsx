@@ -3,7 +3,7 @@ import React from "react";
 import { ReactComponent as IconDevice } from "assets/icon/icon_device.svg";
 import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageMenu from "./LanguageMenu";
+import ChangeLanguage from "./ChangeLanguage";
 import DashboardOption from "./DashboardOption";
 import UserMenu from "./UserMenu";
 import useToggle from "hooks/useToggle";
@@ -30,7 +30,7 @@ const DashBoardLayout = () => {
           to="device"
         />
         <div className="flex flex-col mt-auto">
-          <LanguageMenu />
+          <ChangeLanguage />
           <UserMenu onLogout={onOpen} />
         </div>
       </Box>
