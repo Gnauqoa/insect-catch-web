@@ -266,7 +266,7 @@ const Control = ({
             <Slider
               defaultValue={inputData.brightness}
               value={inputData.brightness}
-              onChange={onInputChange}
+              onChange={(e) => onInputChange(e, setInputData)}
               name="brightness"
               valueLabelDisplay="auto"
             />
