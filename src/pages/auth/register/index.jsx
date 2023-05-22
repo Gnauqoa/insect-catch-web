@@ -111,6 +111,9 @@ const Register = () => {
                 onBlur={handleComplete}
                 value={formValue.first_name}
                 onChange={handleChange}
+                error_message={
+                  errorMessage.first_name ? t(`login.message.name`) : ""
+                }
                 name="first_name"
                 placeholder={t("register.first_name")}
               />
@@ -118,6 +121,9 @@ const Register = () => {
                 onBlur={handleComplete}
                 value={formValue.last_name}
                 onChange={handleChange}
+                error_message={
+                  errorMessage.last_name ? t(`login.message.name`) : ""
+                }
                 name="last_name"
                 placeholder={t("register.last_name")}
               />
@@ -129,6 +135,7 @@ const Register = () => {
             onChange={handleChange}
             name="email"
             placeholder="Email"
+            error_message={errorMessage.email ? t(`login.message.email`) : ""}
             label="Email"
           />
           <MyInput
@@ -138,6 +145,9 @@ const Register = () => {
             name="password"
             placeholder="***********"
             label={t("register.password")}
+            error_message={
+              errorMessage.email ? t(`login.message.password`) : ""
+            }
             type="password"
           />
           <MyInput

@@ -91,7 +91,7 @@ const Login = () => {
           <MyInput
             onBlur={handleComplete}
             value={formValue.email}
-            error_message={errorMessage.email}
+            error_message={errorMessage.email ? t(`login.message.email`) : ""}
             onChange={handleChange}
             name="email"
             label={t("login.email")}
@@ -100,7 +100,9 @@ const Login = () => {
           <MyInput
             onBlur={handleComplete}
             value={formValue.password}
-            error_message={errorMessage.password}
+            error_message={
+              errorMessage.password ? t(`login.message.password`) : ""
+            }
             onChange={handleChange}
             name="password"
             label={t("login.password")}
