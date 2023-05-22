@@ -19,12 +19,6 @@ const register = {
       201: "Tạo tài khoản thành công",
       500: "Người dùng phải đủ 18 tuổi",
     },
-    message: {
-      email: "Email không đúng",
-      password:
-        "Password phải dài ít nhất 8 kí tự, gồm viết hoa, viết thường và số",
-      name: "Name không thể trống",
-    },
   },
   en: {
     title: "Sign up to app",
@@ -45,12 +39,6 @@ const register = {
     409: "Account already exist",
     201: "Create account success",
     500: "User must older than 18",
-  },
-  message: {
-    email: "Email is not valid",
-    password:
-      "Password length must be longer than 8, have 1 uppercase, 1 lowercase and 1 number",
-    name: "Name can't be empty",
   },
 };
 
