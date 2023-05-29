@@ -2,7 +2,6 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { useEffect } from "react";
 import DeviceList from "./List";
 import DeviceDetails from "./Details";
-import { useParams } from "react-router-dom";
 import Introduce from "./Introduce";
 import useAPI from "hooks/useApi";
 import { useDispatch } from "react-redux";
@@ -11,7 +10,7 @@ import { setDeviceList } from "reducers/deviceListReducer";
 const DevicePage = () => {
   const dispatch = useDispatch();
   const [getDeviceList, loading] = useAPI(
-    "/v2/user/current/device",
+    "/v2/user/device",
     "get"
   );
   useEffect(() => {
