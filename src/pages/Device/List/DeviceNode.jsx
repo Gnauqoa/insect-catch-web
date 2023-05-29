@@ -63,6 +63,7 @@ const DeviceNode = ({ name, device_id, status, updated_at }) => {
           placement="right"
           open={menuFlag}
           onClose={closeMenu}
+          device_id={device_id}
         >
           <IconButton
             onClick={openMenu}
