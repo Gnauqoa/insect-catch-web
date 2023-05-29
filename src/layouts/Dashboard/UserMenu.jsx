@@ -1,19 +1,18 @@
 import { Box, SvgIcon, Typography } from "@mui/material";
 import CustomTooltip from "components/CustomTooltip";
-import React, { useEffect } from "react";
+import React from "react";
 import { ReactComponent as IconProfile } from "assets/icon/icon_profile_circle.svg";
 import { ReactComponent as IconLogOut } from "assets/icon/icon_logout.svg";
 import { useTranslation } from "react-i18next";
 import useToggle from "hooks/useToggle";
 import useAPI from "hooks/useApi";
-import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoginStatus } from "reducers/loginStatusReducer";
 
 const UserMenu = () => {
   const [openTooltip, toggleTooltip, onOpen, onClose] = useToggle(false);
   return (
-    <CustomTooltip
+    <CustomTooltip 
       open={openTooltip}
       onOpen={onOpen}
       onClose={onClose}

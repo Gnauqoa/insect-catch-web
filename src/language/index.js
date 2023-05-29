@@ -3,6 +3,8 @@ import login from "./login";
 import register from "./register";
 import dashboard from "./dashboard";
 import device from "./device";
+import deviceMenu from "./deviceMenu";
+import text from "./text";
 const defaultLanguage = "en";
 
 i18next.init({
@@ -15,14 +17,18 @@ i18next.init({
   resources: {
     en: {
       translation: {
+        text: text.en,
         login: login.en,
         register: register.en,
         dashboard: dashboard.en,
         device: device.en,
+        deviceMenu: deviceMenu.en,
       },
     },
     vi: {
       translation: {
+        text: text.vi,
+        deviceMenu: deviceMenu.vi,
         login: login.vi,
         register: register.vi,
         dashboard: dashboard.vi,

@@ -56,7 +56,7 @@ const Control = ({
   const { t } = useTranslation();
   const { device_id } = useParams();
   const [updateDevice, loading] = useAPI(
-    `/v2/user/current/device/${device_id}`,
+    `/v2/user/device/${device_id}`,
     "put",
     { control_data: { ...inputData } }
   );

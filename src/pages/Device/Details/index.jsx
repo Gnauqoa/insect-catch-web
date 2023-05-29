@@ -10,7 +10,7 @@ const Container = () => {
   const { device_id, lang } = useParams();
   const navigate = useNavigate();
   const [getDevice, loading, currentDevice] = useAPI(
-    `/v2/user/current/device/${device_id}`,
+    `/v2/user/device/${device_id}`,
     "get"
   );
   useEffect(() => {
