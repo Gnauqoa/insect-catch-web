@@ -9,10 +9,7 @@ import { setDeviceList } from "reducers/deviceListReducer";
 
 const DevicePage = () => {
   const dispatch = useDispatch();
-  const [getDeviceList, loading] = useAPI(
-    "/v2/user/device",
-    "get"
-  );
+  const [getDeviceList, loading] = useAPI("/v2/user/device", "get");
   useEffect(() => {
     getDeviceList().then((res) => {
       dispatch(setDeviceList(res.data.data.items));
@@ -31,10 +28,17 @@ const DevicePage = () => {
           zIndex: 10,
           position: "relative",
         }}
-        className="flex flex-col px-12 py-5 gap-6 w-full"
       >
-        <Introduce />
-        {loading ? <CircularProgress /> : <DeviceList />}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center w-full h-full">
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+            <Introduce />
+            <DeviceList />
+          </>
+        )}
       </Box>
       <DeviceDetails />
     </div>

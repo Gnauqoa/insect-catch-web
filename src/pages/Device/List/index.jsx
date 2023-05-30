@@ -5,9 +5,11 @@ import ColumnName from "./ColumnName";
 import DeviceNode from "./DeviceNode";
 import { useSelector } from "react-redux";
 
+
 const DeviceList = () => {
   const { device_id } = useParams();
   const device_list = useSelector((state) => state.deviceList);
+  if (!device_list?.length) return <></>;
   if (device_id)
     return (
       <div className="flex flex-col relative">
@@ -45,5 +47,12 @@ const DeviceList = () => {
       )}
     </div>
   );
+};
+let saveArray;
+const C = (n, k) => {
+  if (k === 0 || k === n) return -1;
+  if (k < 0 || k > n) return 0;
+  if (!saveArray[n][k]) saveArray[n][k] = C(n - 1, k - 1) + C(n, k - 1);
+  return saveArray[n][k];
 };
 export default DeviceList;
