@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoginStatus } from "reducers/loginStatusReducer";
 import { getAccessTokenFromRefreshToken } from "services/auth";
 
-const useAPI = (url, method = "get", data = null, params = null) => {
+const useAPI = (url, method = "get") => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [loading, toggleLoading, onLoading, onLoaded] = useToggle(false);
   const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
-  const getData = () => {
+  const getData = (data = null, params = null) => {
     onLoading();
     return axiosForInsertCatchAPI
       .request({ method, url, data, params })

@@ -5,6 +5,7 @@ import dashboard from "./dashboard";
 import device from "./device";
 import deviceMenu from "./deviceMenu";
 import text from "./text";
+import addModal from "./addModal";
 const defaultLanguage = "en";
 
 i18next.init({
@@ -23,6 +24,7 @@ i18next.init({
         dashboard: dashboard.en,
         device: device.en,
         deviceMenu: deviceMenu.en,
+        addModal: addModal.en,
       },
     },
     vi: {
@@ -33,6 +35,7 @@ i18next.init({
         register: register.vi,
         dashboard: dashboard.vi,
         device: device.vi,
+        addModal: addModal.vi,
       },
     },
   },

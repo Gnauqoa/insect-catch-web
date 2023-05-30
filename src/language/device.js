@@ -39,6 +39,8 @@ const device = {
     mapTitle: "Vị trí trên bản đồ",
     imgTitle: "Ảnh camera",
     save: "Lưu",
+    emptyText: "Có vẻ bạn vẫn chưa có thiết bị nào",
+    addButton: "Thêm thiết bị",
   },
   en: {
     title: "My Device",
@@ -80,6 +82,8 @@ const device = {
     mapTitle: "Map location",
     imgTitle: "Camera image",
     save: "Save",
+    emptyText: "Ops, It seems that you don't have any device.",
+    addButton: "Add new device",
   },
 };
 
