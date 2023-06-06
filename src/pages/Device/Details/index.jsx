@@ -25,7 +25,7 @@ const Container = () => {
         >
           <SvgIcon component={IconClose} inheritViewBox={true}></SvgIcon>
         </IconButton>
-        <div className="flex flex-col pl-[32px] gap-12 relative ">
+        <div className="flex flex-col pl-[32px] gap-12 w-full relative ">
           {loading ? (
             <CircularProgress />
           ) : (

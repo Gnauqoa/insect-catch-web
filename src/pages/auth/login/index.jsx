@@ -94,7 +94,7 @@ const Login = () => {
             error_message={errorMessage.email ? t(`login.message.email`) : ""}
             onChange={handleChange}
             name="email"
-            label={t("login.email")}
+            // label={t("login.email")}
             startIcon={IconSms}
           />
           <MyInput

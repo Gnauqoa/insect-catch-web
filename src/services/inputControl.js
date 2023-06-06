@@ -6,7 +6,7 @@ export const onSwitchChange = (event, setState) => {
   const { name, checked } = event.target;
   setState((state) => ({ ...state, [name]: checked }));
 };
-export const onTimeChange = (event,setState, unit ) => {
+export const onTimeChange = (event, setState, unit) => {
   const { name, value } = event.target;
   setState((state) => ({
     ...state,

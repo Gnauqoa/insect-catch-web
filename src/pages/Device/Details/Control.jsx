@@ -55,14 +55,10 @@ const Control = ({
   const [inputData, setInputData] = useState(defaultInput);
   const { t } = useTranslation();
   const { device_id } = useParams();
-  const [updateDevice, loading] = useAPI(
-    `/v2/user/device/${device_id}`,
-    "put",
-    { control_data: { ...inputData } }
-  );
+  const [updateDevice, loading] = useAPI(`/v2/user/device/${device_id}`, "put");
   const handleUpdateDevice = () => {
     console.log(inputData);
-    updateDevice()
+    updateDevice({ control_data: { ...inputData } })
       .then((res) => {
         toast.success("Update device success!");
       })
