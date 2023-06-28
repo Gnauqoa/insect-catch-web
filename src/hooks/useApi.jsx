@@ -11,7 +11,7 @@ const useAPI = (url, method = "get") => {
   const [loading, toggleLoading, onLoading, onLoaded] = useToggle(false);
   const loginStatus = useSelector((state) => state.loginStatus);
   const dispatch = useDispatch();
-  const getData = (data = null, params = null) => {
+  const run = (data = null, params = null) => {
     onLoading();
     return axiosForInsertCatchAPI
       .request({ method, url, data, params })
@@ -44,7 +44,7 @@ const useAPI = (url, method = "get") => {
       });
   };
 
-  return [getData, loading, response, error];
+  return [run, loading, response, error];
 };
 
 export default useAPI;
